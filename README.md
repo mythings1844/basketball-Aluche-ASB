@@ -81,3 +81,14 @@ CSS
 Clona el repositorio o descarga los archivos.
 
 Abre el archivo index.html directamente en cualquier navegador web o despliega el directorio mediante un servidor estático (como GitHub Pages, Vercel o Live Server en VS Code).
+
+
+Montar servidor de prueba en PS:
+
+cd C:\Projects\Basketball
+
+PS C:\Projects\Basketball> 
+
+$listener = New-Object System.Net.HttpListener; $listener.Prefixes.Add("http://+:8000/"); try { $listener.Start() } catch { $listener.Prefixes.Clear(); $listener.Prefixes.Add("http://localhost:8000/"); $listener.Start() }; Write-Host "Servidor listo en el puerto 8000..."; while ($listener.IsListening) { $context = $listener.GetContext(); $req = $context.Request; $res = $context.Response; $path = Join-Path (Get-Location) ($req.Url.AbsolutePath.TrimStart('/')); if ((Test-Path $path -PathType Leaf) -eq $false) { $path = Join-Path (Get-Location) "index.html" }; $content = [System.IO.File]::ReadAllBytes($path); $res.ContentLength64 = $content.Length; $res.OutputStream.Write($content, 0, $content.Length); $res.Close() }
+
+PS C:\WINDOWS\system32> New-NetFirewallRule -DisplayName "Servidor Local Solo Mi Movil" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8000 -RemoteAddress 192.168.1.182

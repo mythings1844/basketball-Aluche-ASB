@@ -22,16 +22,16 @@ function renderLogo(nombreEquipo, iniciales) {
 // Datos de todas las jornadas, semifinales y final
 const datosJornadas = {
   1: [
-    { fecha: "Viernes, 24/07/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Team Bichota", badgeVisitante: "TB", marcador: "78 - 65", cancha: "Cancha Principal" },
-    { fecha: "Viernes, 24/07/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "72 - 58", cancha: "Cancha Principal" },
-    { fecha: "Sábado, 25/07/2026 - 19:00", local: "Team Sufrido", badgeLocal: "TS", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "66 - 73", cancha: "Cancha Principal" },
-    { fecha: "Sábado, 25/07/2026 - 20:15", local: "A.Q.P", badgeLocal: "AQE", visitante: "Team Azua", badgeVisitante: "LS", marcador: "54 - 61", cancha: "Cancha Principal" }
+    { fecha: "Viernes, 24/07/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Team Bichota", badgeVisitante: "TB", marcador: "67 - 50", cancha: "Cancha Principal" },
+    { fecha: "Viernes, 24/07/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "50 - 55", cancha: "Cancha Principal" },
+    { fecha: "Sábado, 25/07/2026 - 19:00", local: "Team Sufrido", badgeLocal: "TS", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "55 - 63", cancha: "Cancha Principal" },
+    { fecha: "Sábado, 25/07/2026 - 20:15", local: "A.Q.P", badgeLocal: "AQE", visitante: "Team Azua", badgeVisitante: "LS", marcador: "46 - 52", cancha: "Cancha Principal" }
   ],
   2: [
-    { fecha: "Viernes, 31/07/2026 - 19:00", local: "Cheo Madera", badgeLocal: "CM", visitante: "Team Abrante", badgeVisitante: "TA", marcador: "62 - 70", cancha: "Cancha Principal" },
-    { fecha: "Viernes, 31/07/2026 - 20:15", local: "Team Bichota", badgeLocal: "TB", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "81 - 79", cancha: "Cancha Principal" },
-    { fecha: "Sábado, 01/08/2026 - 19:00", local: "Team Azua", badgeLocal: "LS", visitante: "Team Sufrido", badgeVisitante: "TS", marcador: "50 - 68", cancha: "Cancha Principal" },
-    { fecha: "Sábado, 01/08/2026 - 20:15", local: "Marqués de Vadillo", badgeLocal: "MV", visitante: "A.Q.P", badgeVisitante: "AQE", marcador: "75 - 52", cancha: "Cancha Principal" }
+    { fecha: "Viernes, 31/07/2026 - 19:00", local: "Team Bichota", badgeLocal: "TB", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "74 - 73", cancha: "Cancha Principal" },
+    { fecha: "Viernes, 31/07/2026 - 20:15", local: "Team Abrante", badgeLocal: "TA", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "64 - 75", cancha: "Cancha Principal" },
+    { fecha: "Sábado, 01/08/2026 - 19:00", local: "Vieja Guardia", badgeLocal: "VG", visitante: "A.Q.P", badgeVisitante: "AQE", marcador: "-- - --", cancha: "Cancha Principal" },
+    { fecha: "Sábado, 01/08/2026 - 20:15", local: "Team Sufrido", badgeLocal: "TS", visitante: "Team Azua", badgeVisitante: "LS", marcador: "-- - --", cancha: "Cancha Principal" }
   ],
   3: [
     { fecha: "Viernes, 07/08/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "-- - --", cancha: "Cancha Principal" },

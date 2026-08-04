@@ -555,3 +555,323 @@ footer .footer-content, footer {
   align-items: center;
   justify-content: space-between;
 }
+
+/* =========================================================
+   ADAPTATIVO PARA MÓVILES (RESPONSIVE DESIGN)
+   ========================================================= */
+@media (max-width: 768px) {
+
+  /* 1. Ajustes del contenedor principal y márgenes */
+  body {
+    padding: 0 !important;
+  }
+  
+  .container, .main-wrapper, #app-container {
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 10px !important;
+  }
+
+  /* 2. Ajuste del Header */
+  header {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 15px 10px !important;
+  }
+  
+  header .brand-title h1 {
+    font-size: 1.4rem !important;
+  }
+
+  /* 3. Menú de navegación principal */
+  .main-nav {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  .main-nav .nav-link {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 12px 5px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* 4. Selector de Jornadas (permite scroll horizontal suave) */
+  .jornadas-tabs, .tabs-container {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .jornadas-tabs button, .tab-btn {
+    flex: 0 0 auto !important;
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* 5. Grid de Partidos (pasa de 2 columnas a 1 sola) */
+  .matches-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* 6. Reestructuración de la tarjeta de partido */
+  .match-card {
+    padding: 12px 6px !important;
+  }
+
+  /* Alineación horizontal principal (Equipo Local - Marcador - Equipo Visitante) */
+  .match-card .match-teams, .match-teams-container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+  }
+
+  /* FUERZA a que el contenedor de CADA EQUIPO ponga la imagen arriba y el texto abajo */
+  .team-info, .team, .team-container,
+  .match-teams > div:not(.score):not(.match-score),
+  .match-teams-container > div:not(.score):not(.match-score) {
+    display: flex !important;
+    flex-direction: column !important; /* Alineación vertical */
+    align-items: center !important;    /* Centrado horizontal de la imagen y el texto */
+    justify-content: center !important;
+    text-align: center !important;
+    flex: 1 1 0 !important;
+    width: 38% !important;
+    max-width: 38% !important;
+  }
+
+  /* Reglas para la imagen dentro de cada equipo */
+  .team-badge, .team img, .team-info img, .team-container img {
+    order: 1 !important; /* Fuerza a la imagen a ir ARRIBA */
+    display: block !important;
+    margin: 0 auto 6px auto !important;
+    width: 34px !important;
+    height: 34px !important;
+    object-fit: contain !important;
+  }
+
+  /* Reglas para el texto/nombre dentro de cada equipo */
+  .team-name, .team-info span, .team-info p, .team span, .team p,
+  .match-teams > div > span, .match-teams-container > div > span {
+    order: 2 !important; /* Fuerza al texto a ir ABAJO */
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    
+    /* Desactiva los guiones automáticos */
+    hyphens: manual !important;
+    -webkit-hyphens: manual !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+  }
+
+  /* Marcador centrado */
+  .score, .match-score {
+    font-size: 1.3rem !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    padding: 0 4px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* 7. Tabla de posiciones (Habilita scroll horizontal para ver todas las columnas) */
+  .table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    display: block !important;
+  }
+
+  .table-container table {
+    min-width: 550px !important; /* Fuerza el ancho mínimo para mantener la legibilidad de columnas */
+    font-size: 0.8rem !important;
+  }
+
+  .table-container th, .table-container td {
+    padding: 8px 4px !important;
+  }
+
+  /* 8. Footer ajustado */
+  footer {
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+    padding: 20px 10px !important;
+  }
+}
+
+/* =========================================================
+   AJUSTE RESPONSIVE DE LA BARRA DE NAVEGACIÓN (MÓVILES)
+   ========================================================= */
+.main-nav ul {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  width: 100% !important;
+}
+
+.main-nav ul li {
+  flex: 1 !important;
+  text-align: center !important;
+}
+
+.main-nav .nav-link {
+  white-space: nowrap !important; /* Impide que el texto se divida en 2 líneas */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  padding: 12px 6px !important;    /* Controla la altura fija del menú */
+}
+
+/* Ajustes específicos para pantallas pequeñas (teléfonos) */
+@media (max-width: 768px) {
+  .main-nav .nav-link {
+    font-size: 0.78rem !important;  /* Reduce ligeramente la fuente para que quepa todo en una línea */
+    letter-spacing: 0px !important; /* Reduce espacio entre letras en móvil */
+    padding: 10px 4px !important;   /* Menor separación interna */
+  }
+}
+
+/* =========================================================
+   BARRA DE NAVEGACIÓN ALINEADA A LA DERECHA
+   ========================================================= */
+nav.main-nav {
+  display: flex !important;
+  justify-content: flex-end !important; /* Empuja el grupo hacia la derecha */
+  text-align: right !important;
+  width: 100% !important;
+}
+
+nav.main-nav ul {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important; /* Alinea los botones a la derecha */
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+nav.main-nav ul li {
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+nav.main-nav .nav-link {
+  white-space: nowrap !important; /* Mantiene QUIÉNES SOMOS en 1 línea */
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+}
+
+/* Ajuste responsive para móviles */
+@media (max-width: 768px) {
+  nav.main-nav .nav-link {
+    font-size: 0.8rem !important;  /* Tamaño reducido para móvil */
+    padding: 10px 8px !important;   /* Espaciado ajustado entre opciones */
+    letter-spacing: 0px !important;
+  }
+}
+
+/* =========================================================
+   DESPLAZAR COLUMNA EQUIPO ALINEADO A LA IZQUIERDA
+   ========================================================= */
+
+/* 1. Centrar el título de la cabecera EQUIPO */
+.table-container th:nth-child(2) {
+  text-align: center !important;
+}
+
+/* 2. Mantener alineación a la izquierda con margen inicial en pantallas grandes */
+.table-container td:nth-child(2) {
+  text-align: left !important;
+  padding-left: 50px !important; /* Desplaza todo el grupo a la derecha */
+}
+
+.table-container td:nth-child(2) > div,
+.table-container .team-cell,
+.table-container .team-info {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important; /* Mantiene la alineación a la izquierda */
+  gap: 12px !important;
+}
+
+/* 3. Ajuste para pantallas móviles (para no perder espacio útil) */
+@media (max-width: 768px) {
+  .table-container td:nth-child(2) {
+    padding-left: 15px !important; /* Reduce el relleno en móviles */
+  }
+}
+
+/* =========================================================
+   VISTA QUIÉNES SOMOS
+   ========================================================= */
+#view-quienes-somos {
+  width: 100%;
+  padding: 15px 0;
+}
+
+.quienes-somos-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quienes-somos-container .logo-wrapper {
+  width: 100%;
+  max-width: 900px; /* Ancho máximo para pantallas grandes */
+  text-align: center;
+}
+
+.quienes-somos-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px; /* Opcional */
+}
+
+/* Adaptación responsive para móviles */
+@media (max-width: 768px) {
+  #view-quienes-somos {
+    padding: 10px 0;
+  }
+}
+
+/* =========================================================
+   BORDE LATERAL Y INFERIOR DE LA TABLA DE POSICIONES
+   ========================================================= */
+.table-container table {
+  border-left: 1px solid #e0e0e0 !important;   /* Borde lateral izquierdo */
+  border-right: 1px solid #e0e0e0 !important;  /* Borde lateral derecho */
+  border-bottom: 1px solid #e0e0e0 !important; /* Borde inferior */
+  
+  /* Redondea únicamente las esquinas inferiores de la tabla */
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  
+  /* Asegura que el contenido respete las esquinas redondeadas */
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+/* Evita que la última fila tenga doble borde o sobresalga */
+.table-container table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px !important;
+}
+
+.table-container table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px !important;
+}
