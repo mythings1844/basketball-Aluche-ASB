@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneo Callejero de Baloncesto - Resultados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #a80000;
+      --bg-light: #f5f5f5;
+      --border-color: #e5e5e5;
+      --text-muted: #666666;
+      --text-dark: #222222;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 40px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    /* HEADER */
+    header {
+      border-top: 4px solid var(--primary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-placeholder {
+      width: 45px;
+      height: 45px;
+      background-color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      border: 2px solid var(--primary);
+    }
+
+    .brand-title h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 30px;
+    }
+
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 3px;
+      background-color: var(--primary);
+      margin-top: 4px;
+    }
+
+    /* JORNADAS CONTAINER */
+    .jornadas-wrapper {
+      background: #fafafa;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+
+    .jornadas-header {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .jornadas-tabs {
+      display: flex;
+      gap: 5px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: #333;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: #d0d0d0;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* MATCH CARDS GRID */
+    .matches-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 650px) {
+      .matches-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .match-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 15px;
+      text-align: center;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .match-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .match-teams {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 40%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .team.home {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .team.away {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .team-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .score {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      width: 20%;
+    }
+
+    .match-location {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .btn-full-calendar {
+      display: block;
+      width: max-content;
+      margin: 0 auto;
+      padding: 8px 16px;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* POSICIONES TABLE */
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: #fafafa;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 12px 8px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+    }
+
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .col-team {
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .col-pts {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .table-legend {
+      margin-top: 15px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-placeholder">🏀</div>
+        <div class="brand-title">
+          <h1>Torneo Callejero de Baloncesto</h1>
+          <p>Volumen III</p>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Resultados</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <h2 class="section-title">Resultados</h2>
+
+      <!-- JORNADAS & PARTIDOS -->
+      <section class="jornadas-wrapper">
+        <div class="jornadas-header">Jornadas</div>
+        <div class="jornadas-tabs" id="jornadasTabs">
+          <button class="tab-btn active" onclick="cargarJornada(1)">Jornada 1</button>
+          <button class="tab-btn" onclick="cargarJornada(2)">Jornada 2</button>
+          <button class="tab-btn" onclick="cargarJornada(3)">Jornada 3</button>
+          <button class="tab-btn" onclick="cargarJornada(4)">Jornada 4</button>
+          <button class="tab-btn" onclick="cargarJornada(5)">Jornada 5</button>
+          <button class="tab-btn" onclick="cargarJornada(6)">Jornada 6</button>
+          <button class="tab-btn" onclick="cargarJornada(7)">Jornada 7</button>
+        </div>
+
+        <div class="matches-grid" id="matchesContainer">
+          <!-- Se completa dinámicamente con JS -->
+        </div>
+
+        <button class="btn-full-calendar">📅 Ver calendario completo</button>
+      </section>
+
+      <!-- TABLA DE POSICIONES -->
+      <section>
+        <h2 class="section-title">Posiciones</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>POS</th>
+                <th style="text-align: left; padding-left: 15px;">EQUIPO</th>
+                <th>PJ</th>
+                <th>PG</th>
+                <th>PP</th>
+                <th>PF</th>
+                <th>PC</th>
+                <th>DIF</th>
+                <th>PTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="col-team"><div class="team-badge">TA</div> Team Abrante</td>
+                <td>7</td><td>6</td><td>1</td><td>512</td><td>403</td><td>+109</td><td class="col-pts">13</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="col-team"><div class="team-badge">VG</div> Vieja Guardia</td>
+                <td>7</td><td>6</td><td>1</td><td>498</td><td>412</td><td>+86</td><td class="col-pts">13</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="col-team"><div class="team-badge">TB</div> Team Bichota</td>
+                <td>7</td><td>5</td><td>2</td><td>471</td><td>415</td><td>+56</td><td class="col-pts">12</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td class="col-team"><div class="team-badge">CM</div> Cheo Madera</td>
+                <td>7</td><td>4</td><td>3</td><td>455</td><td>444</td><td>+11</td><td class="col-pts">11</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td class="col-team"><div class="team-badge">TS</div> Team Sufrido</td>
+                <td>7</td><td>3</td><td>4</td><td>452</td><td>461</td><td>-9</td><td class="col-pts">10</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td class="col-team"><div class="team-badge">MV</div> Marqués de Vadillo</td>
+                <td>7</td><td>3</td><td>4</td><td>466</td><td>458</td><td>-12</td><td class="col-pts">10</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td class="col-team"><div class="team-badge">LS</div> Liga Sagun</td>
+                <td>7</td><td>2</td><td>5</td><td>401</td><td>478</td><td>-77</td><td class="col-pts">9</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td class="col-team"><div class="team-badge">AQE</div> A.Q.E</td>
+                <td>7</td><td>1</td><td>6</td><td>389</td><td>553</td><td>-164</td><td class="col-pts">8</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-legend">
+          ℹ️ PJ: Partidos Jugados | PG: Partidos Ganados | PP: Partidos Perdidos | PF: Puntos a Favor | PC: Puntos en Contra | DIF: Diferencia | PTS: Puntos
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© 2026 Torneo Callejero de Baloncesto Volumen III</div>
+      <div>Desarrollado para el deporte callejero 🏀</div>
+    </footer>
+  </div>
+
+  <script>
+    // 1. Datos de partidos por jornada
+    const datosJornadas = {
+      1: [
+        { fecha: "Viernes, 24/07/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Team Bichota", badgeVisitante: "TB", marcador: "78 - 65", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 24/07/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "72 - 58", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 25/07/2026 - 19:00", local: "Team Sufrido", badgeLocal: "TS", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "66 - 73", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 25/07/2026 - 20:15", local: "A.Q.E", badgeLocal: "AQE", visitante: "Liga Sagun", badgeVisitante: "LS", marcador: "54 - 61", cancha: "Cancha Principal" }
+      ],
+      2: [
+        { fecha: "Viernes, 31/07/2026 - 19:00", local: "Cheo Madera", badgeLocal: "CM", visitante: "Team Abrante", badgeVisitante: "TA", marcador: "62 - 70", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 31/07/2026 - 20:15", local: "Team Bichota", badgeLocal: "TB", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "81 - 79", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 01/08/2026 - 19:00", local: "Liga Sagun", badgeLocal: "LS", visitante: "Team Sufrido", badgeVisitante: "TS", marcador: "50 - 68", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 01/08/2026 - 20:15", local: "Marqués de Vadillo", badgeLocal: "MV", visitante: "A.Q.E", badgeVisitante: "AQE", marcador: "75 - 52", cancha: "Cancha Principal" }
+      ],
+      3: [
+        { fecha: "Viernes, 07/08/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "69 - 71", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 07/08/2026 - 20:15", local: "Cheo Madera", badgeLocal: "CM", visitante: "Team Bichota", badgeVisitante: "TB", marcador: "64 - 60", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 08/08/2026 - 19:00", local: "Team Sufrido", badgeLocal: "TS", visitante: "A.Q.E", badgeVisitante: "AQE", marcador: "72 - 60", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 08/08/2026 - 20:15", local: "Liga Sagun", badgeLocal: "LS", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "58 - 65", cancha: "Cancha Principal" }
+      ],
+      4: [
+        { fecha: "Viernes, 14/08/2026 - 19:00", local: "Team Bichota", badgeLocal: "TB", visitante: "Team Sufrido", badgeVisitante: "TS", marcador: "77 - 70", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 14/08/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "Liga Sagun", badgeVisitante: "LS", marcador: "80 - 55", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 15/08/2026 - 19:00", local: "A.Q.E", badgeLocal: "AQE", visitante: "Team Abrante", badgeVisitante: "TA", marcador: "48 - 82", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 15/08/2026 - 20:15", local: "Marqués de Vadillo", badgeLocal: "MV", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "61 - 63", cancha: "Cancha Principal" }
+      ],
+      5: [
+        { fecha: "Viernes, 21/08/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Liga Sagun", badgeVisitante: "LS", marcador: "75 - 50", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 21/08/2026 - 20:15", local: "Cheo Madera", badgeLocal: "CM", visitante: "A.Q.E", badgeVisitante: "AQE", marcador: "70 - 55", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 22/08/2026 - 19:00", local: "Team Bichota", badgeLocal: "TB", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "68 - 62", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 22/08/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "Team Sufrido", badgeVisitante: "TS", marcador: "65 - 58", cancha: "Cancha Principal" }
+      ],
+      6: [
+        { fecha: "Viernes, 28/08/2026 - 19:00", local: "Team Sufrido", badgeLocal: "TS", visitante: "Team Abrante", badgeVisitante: "TA", marcador: "60 - 74", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 28/08/2026 - 20:15", local: "Liga Sagun", badgeLocal: "LS", visitante: "Cheo Madera", badgeVisitante: "CM", marcador: "63 - 59", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 29/08/2026 - 19:00", local: "A.Q.E", badgeLocal: "AQE", visitante: "Team Bichota", badgeVisitante: "TB", marcador: "50 - 71", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 29/08/2026 - 20:15", local: "Marqués de Vadillo", badgeLocal: "MV", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "59 - 66", cancha: "Cancha Principal" }
+      ],
+      7: [
+        { fecha: "Viernes, 04/09/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Marqués de Vadillo", badgeVisitante: "MV", marcador: "64 - 59", cancha: "Cancha Principal" },
+        { fecha: "Viernes, 04/09/2026 - 20:15", local: "Vieja Guardia", badgeLocal: "VG", visitante: "A.Q.E", badgeVisitante: "AQE", marcador: "65 - 50", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 05/09/2026 - 19:00", local: "Team Bichota", badgeLocal: "TB", visitante: "Liga Sagun", badgeVisitante: "LS", marcador: "39 - 64", cancha: "Cancha Principal" },
+        { fecha: "Sábado, 05/09/2026 - 20:15", local: "Cheo Madera", badgeLocal: "CM", visitante: "Team Sufrido", badgeVisitante: "TS", marcador: "68 - 68", cancha: "Cancha Principal" }
+      ]
+    };
+
+    // 2. Función para renderizar los partidos de la jornada seleccionada
+    function cargarJornada(numeroJornada) {
+      const container = document.getElementById('matchesContainer');
+      const partidos = datosJornadas[numeroJornada];
+
+      // Cambiar clase 'active' en las pestañas
+      const botones = document.querySelectorAll('.tab-btn');
+      botones.forEach((btn, index) => {
+        if (index + 1 === numeroJornada) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Generar el HTML de las tarjetas
+      let html = '';
+      partidos.forEach(partido => {
+        html += `
+          <div class="match-card">
+            <div class="match-date">${partido.fecha}</div>
+            <div class="match-teams">
+              <div class="team home">
+                <span>${partido.local}</span>
+                <div class="team-badge">${partido.badgeLocal}</div>
+              </div>
+              <div class="score">${partido.marcador}</div>
+              <div class="team away">
+                <div class="team-badge">${partido.badgeVisitante}</div>
+                <span>${partido.visitante}</span>
+              </div>
+            </div>
+            <div class="match-location">📍 ${partido.cancha}</div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Cargar la Jornada 1 por defecto al iniciar
+    cargarJornada(1);
+  </script>
+</body>
+</html>

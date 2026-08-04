@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneo Callejero de Baloncesto</title>
+  
+  <!-- Favicon para navegadores en escritorio -->
+  <link rel="icon" type="image/png" href="img/aluche.png">
+  
+  <!-- Favicon para acceso directo en dispositivos Apple (iOS) -->
+  <link rel="apple-touch-icon" href="img/aluche.png">
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="logo-container">
+        <img src="img/aluche.png" alt="Torneo Callejero de Baloncesto" class="header-logo">
+        <div class="brand-title">
+          <h1>Aluche StreetBall | Torneo de Baloncesto</h1>
+          <p>Volumen III (2026)</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra de navegación por debajo del header -->
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#calendario" class="nav-link" data-target="view-calendario">CALENDARIO</a></li>
+        <li><a href="#resultados" class="nav-link active" data-target="view-resultados">RESULTADOS</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- VISTA: CALENDARIO -->
+      <section id="view-calendario" class="page-view hidden">
+        <h2 class="section-title">Calendario</h2>
+        <div class="calendar-container">
+          <img src="img/calendar.png" alt="Calendario de Juegos - Torneo Callejero de Baloncesto" class="calendar-img">
+        </div>
+      </section>
+
+      <!-- VISTA: RESULTADOS -->
+      <section id="view-resultados" class="page-view">
+        <h2 class="section-title">Resultados</h2>
+
+        <!-- JORNADAS & PARTIDOS -->
+        <section class="jornadas-wrapper">
+          <div class="jornadas-header">Jornadas & Fases Finales</div>
+          <div class="jornadas-tabs" id="jornadasTabs">
+            <!-- Fase Regular -->
+            <button class="tab-btn active" data-jornada="1">Jornada 1</button>
+            <button class="tab-btn" data-jornada="2">Jornada 2</button>
+            <button class="tab-btn" data-jornada="3">Jornada 3</button>
+            <button class="tab-btn" data-jornada="4">Jornada 4</button>
+            <button class="tab-btn" data-jornada="5">Jornada 5</button>
+            <button class="tab-btn" data-jornada="6">Jornada 6</button>
+            <button class="tab-btn" data-jornada="7">Jornada 7</button>
+            
+            <!-- Fases Finales -->
+            <button class="tab-btn btn-fase-final" data-jornada="semis">Semifinales</button>
+            <button class="tab-btn btn-fase-final" data-jornada="final">Gran Final (Best of 3)</button>
+          </div>
+
+          <div class="matches-grid" id="matchesContainer">
+            <!-- Render dinámico JS -->
+          </div>
+
+        </section>
+
+        <!-- TABLA DE POSICIONES -->
+        <section>
+          <h2 class="section-title">Posiciones</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>POS</th>
+                  <th>EQUIPO</th>
+                  <th>PJ</th>
+                  <th>PG</th>
+                  <th>PP</th>
+                  <th>PF</th>
+                  <th>PC</th>
+                  <th>DIF</th>
+                  <th>PTS</th>
+                </tr>
+              </thead>
+              <!-- El tbody debe estar vacío, JavaScript meterá las filas aquí -->
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-legend">
+            ℹ️ PJ: Partidos Jugados | PG: Partidos Ganados | PP: Partidos Perdidos | PF: Puntos a Favor | PC: Puntos en Contra | DIF: Diferencia | PTS: Puntos
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">
+        <img src="img/aluche.png" alt="Aluche StreetBall" class="footer-logo">
+        <span><strong>© Aluche StreetBall</strong></span>
+        <span class="footer-divider">|</span>
+        <span class="credits"><strong>Desarrollando el deporte 🏀</strong></span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-divider">|</span>
+        <span class="credits">Design by <strong>Herrera</strong></span>
+      </div>
+    </footer>
+
+  <!-- Scripts -->
+  <script src="static/js/data.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

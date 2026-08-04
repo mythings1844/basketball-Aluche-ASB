@@ -1,0 +1,557 @@
+:root {
+  --primary: #a80000;
+  --bg-light: #f5f5f5;
+  --border-color: #e5e5e5;
+  --text-muted: #666666;
+  --text-dark: #222222;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.container {
+  width: 95%; /* Toma casi todo el ancho disponible en pantallas medianas */
+  max-width: 1280px; /* Ampliado significativamente para una vista más panorámica */
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+header {
+  border-top: 5px solid var(--primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 22px 45px; /* Más espacio lateral interno (45px) */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ================= HEADER & NAV ================= */
+header {
+  border-top: 5px solid var(--primary);
+  padding: 20px 45px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-logo {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brand-title h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  color: var(--text-dark);
+}
+
+.brand-title p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+/* ================= NAV BAR DEBAJO DEL HEADER ================= */
+.main-nav {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background-color: #ffffff;
+  padding: 0 45px;
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha (cambiar a flex-start para la izquierda) */
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.main-nav a {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 12px 0; /* Da espacio vertical a la barra de menú */
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--text-dark);
+}
+
+.main-nav a.active {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  margin-bottom: -1px; /* Para alinearlo con el borde inferior del contenedor */
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  transition: color 0.2s ease;
+}
+
+nav a.active {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+}
+
+/* ================= MAIN CONTENT ================= */
+main {
+  padding: 30px;
+}
+
+.page-view.hidden {
+  display: none !important;
+}
+
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: var(--primary);
+  margin-top: 4px;
+}
+
+/* ================= CALENDARIO ================= */
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  background: #fafafa;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.calendar-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ================= JORNADAS CONTAINER ================= */
+.jornadas-wrapper {
+  background: #fafafa;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.jornadas-header {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.jornadas-tabs {
+  display: flex;
+  gap: 5px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  background: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: #d0d0d0;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ================= TARJETAS DE PARTIDOS ================= */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+/* Línea horizontal difuminada en los extremos */
+.day-divider {
+  grid-column: 1 / -1; /* Ocupa todo el ancho de la cuadrícula (las 2 columnas) */
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    var(--border-color) 20%, 
+    var(--border-color) 80%, 
+    transparent 100%
+  );
+  margin: 10px 0;
+}
+
+/* Adaptación responsiva para móviles */
+@media (max-width: 640px) {
+  .matches-grid {
+    grid-template-columns: 1fr; /* Pasa a 1 columna solo en pantallas muy pequeñas */
+  }
+}
+
+.match-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.match-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+/* Distribución del partido: Local | Score | Visitante */
+.match-teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.team.home {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.team.away {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.team-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #1e293b;
+  line-height: 1.1;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: auto;
+}
+
+.team.away .team-name {
+  text-align: right;
+  max-width: 120px;
+}
+
+.team-logo-img {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  flex-shrink: 0;
+}
+
+.team-badge {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: #0f172a;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.score {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.match-location {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 14px;
+}
+
+.btn-full-calendar {
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ================= TABLA DE POSICIONES ================= */
+.table-container table thead {
+  background-color: #1f2937; /* Gris carbón */
+}
+
+.table-container table th {
+  color: #ffffff;
+  font-weight: 600;
+  padding: 12px 10px;
+}
+
+/* Aplicar fondo oscuro Y texto blanco ÚNICAMENTE al encabezado (thead) */
+.table-container table thead th {
+  background-color: #0f172a !important; /* Fondo oscuro exclusivo para el encabezado */
+  color: #ffffff !important;            /* Texto blanco brillante */
+  padding: 12px 10px !important;
+  font-family: 'Oswald', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-bottom: 2px solid #8b0000 !important; /* Línea fija roja divisoria */
+}
+
+/* Restaurar el fondo claro estándar para el cuerpo de la tabla */
+.table-container table tbody td {
+  background-color: transparent !important;
+  color: #1e293b !important; /* Texto oscuro para los datos */
+}
+
+.table-container {
+  overflow: hidden; /* Corta el fondo del thead para que respete los bordes redondeados */
+  border-radius: 8px; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+th {
+  background: #fafafa;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.75rem;
+}
+
+td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.col-team {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.col-pts {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.table-legend {
+  margin-top: 15px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ================= FOOTER ================= */
+footer {
+  border-top: 1px solid var(--border-color);
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Estado especial para centrar tarjetas en 1 columna (Gran Final) */
+.matches-grid.single-column {
+  grid-template-columns: 1fr;
+  max-width: 600px; /* Limita el ancho para mantener la proporción */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Para la Gran Final: fuerza 1 columna que ocupa todo el ancho */
+.matches-grid.full-width-stack {
+  grid-template-columns: 1fr !important;
+}
+
+/* BARRA DE NAVEGACIÓN SECUNDARIA EN NEGRO/OSCURO */
+.main-nav {
+  background-color: #0f172a !important; /* Fondo negro / azul muy oscuro */
+  padding: 0 20px !important;
+  border-bottom: 2px solid #8b0000 !important; /* Línea de acento roja */
+}
+
+/* ENLACES (CALENDARIO / RESULTADOS) EN BLANCO Y GRIS */
+.main-nav .nav-link {
+  color: #94a3b8 !important;            /* Texto inactivo en gris claro */
+  text-decoration: none;
+  font-weight: 700;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  padding: 14px 20px !important;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+/* EFECTO AL PASAR EL RATÓN */
+.main-nav .nav-link:hover {
+  color: #ffffff !important;            /* Texto blanco brillante */
+}
+
+/* PESTAÑA ACTIVA (RESULTADOS) */
+.main-nav .nav-link.active {
+  color: #ffffff !important;            /* Texto en blanco */
+  background-color: #8b0000 !important; /* Destacado en rojo corporativo */
+  border-bottom: 3px solid #ff4d4d !important; /* Subrayado rojo vivo */
+}
+
+
+/* Borde suave con resplandor difuminado */
+.container, .main-wrapper, #app-container {
+  /* Borde fino y semi-transparente */
+  border: 1px solid rgba(139, 0, 0, 0.25) !important; 
+  border-radius: 12px !important;
+  overflow: hidden;
+
+  /* Resplandor suave difundido alrededor del contenedor */
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.15), 
+              0 8px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Ajuste de altura / relleno del footer */
+footer {
+  padding: 35px 25px !important; /* Incrementa el espacio superior e inferior */
+  margin-top: 20px;
+  background-color: #ffffff; /* O #0f172a si prefieres ponerlo oscuro a juego con la barra de navegación */
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Opcional: Centrar el contenido verticalmente por si tienes imágenes/logos */
+footer .footer-content, footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
