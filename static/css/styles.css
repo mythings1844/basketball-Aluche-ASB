@@ -998,3 +998,9 @@ nav.main-nav .nav-link {
   background-color: rgba(239, 68, 68, 0.18) !important;
   color: #b91c1c !important; /* Rojo oscuro para buen contraste */
 }
+
+.header-logo {
+  width: 90px;                  /* Ajusta el ancho deseado (por ejemplo: 80px, 90px, 100px) */
+  height: auto;                  /* Mantiene la proporción de la imagen */
+  transform: translateX(-15px);  /* Mantiene el logo desplazado a la izquierda */
+}
