@@ -875,3 +875,27 @@ nav.main-nav .nav-link {
 .table-container table tbody tr:last-child td:last-child {
   border-bottom-right-radius: 8px !important;
 }
+
+/* =========================================================
+   CENTRADOS DE TEXTO DEL ENCABEZADO (BRAND-TITLE)
+   ========================================================= */
+.brand-title {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;     /* Centra todo horizontalmente */
+  justify-content: center !important;  /* Centra todo verticalmente */
+  text-align: center !important;      /* Asegura el centrado del texto de cada línea */
+  width: 100% !important;
+}
+
+.brand-title h1,
+.brand-title p {
+  margin: 0 !important;               /* Elimina márgenes extra que descuadran el centrado */
+  padding: 2px 0 !important;          /* Espaciado uniforme entre líneas */
+  text-align: center !important;
+}
+
+.subtitle-small {
+  font-size: 0.85rem !important;
+  opacity: 0.85 !important;
+}
