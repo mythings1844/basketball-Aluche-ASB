@@ -27,15 +27,25 @@ aluche-streetball/
 * ⚖️ **Criterios de Desempate:** Ordenación automática por **Puntos (PTS)**, **Diferencia de Puntos (DIF)** y **Puntos a Favor (PF)**.
 * 🎨 **UI/UX Deportiva:** Encabezados oscuros estilizados, insignias de equipo, tarjetas de partidos y leyendas explicativas.
 
----
-
 🛠️ Modos de Uso y Actualización de Resultados
 Para actualizar los resultados del torneo, solo se debe modificar el archivo static/js/data.js. El sistema detecta los cambios y recalcula automáticamente la tabla de posiciones al cargar la página.
 
 ## Formato de Partido en data.js
 Partido Pendiente:
 
-## JavaScript
+##  🛠️ Integración con Google Drive & Google Sheets Para actualizar los resultados sin tocar el código fuente, la aplicación sincroniza la información desde una hoja de cálculo en Google Drive.
+
+1. Formato de la Hoja de Cálculo (Google Sheets)La hoja de trabajo debe incluir la siguiente estructura de columnas en su primera pestaña: ID | Local | Marcador
+
+2. Métodos de Publicación
+Opción A: Publicación Estándar CSV (Refresco en ~5 minutos)
+Ve a Archivo > Compartir > Publicar en la web.
+
+Selecciona la hoja de marcadores y elige el formato Valores separados por comas (.csv).
+
+Copia el enlace generado y pégalo en la constante SHEET_CSV_URL de app.js.
+
+## JavaScript (Resultadas Manuales)
 { fecha: "Viernes, 07/08/2026 - 19:00", local: "Team Abrante", badgeLocal: "TA", visitante: "Vieja Guardia", badgeVisitante: "VG", marcador: "-- - --", cancha: "Cancha Principal" }
 Partido Jugado:
 

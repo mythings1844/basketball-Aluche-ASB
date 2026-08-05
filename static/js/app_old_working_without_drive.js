@@ -1,7 +1,4 @@
-// URL de tu hoja publicada en CSV
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?output=csv";
-
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const matchesContainer = document.getElementById("matchesContainer");
   const tabButtons = document.querySelectorAll(".tab-btn");
   const navLinks = document.querySelectorAll(".nav-link");
@@ -12,27 +9,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   function switchView(targetName) {
     if (!targetName) return;
 
+    // Normaliza el nombre eliminando prefijos "view-" o "#"
     const cleanTarget = targetName.replace(/^#/, "").replace(/^view-/, "");
 
+    // 1. Alternar visibilidad de las secciones (<section id="view-resultados">, etc.)
     views.forEach(view => {
       const isTarget = view.id === `view-${cleanTarget}`;
       view.classList.toggle("hidden", !isTarget);
     });
 
+    // 2. Actualizar estado activo en los enlaces de navegación
     navLinks.forEach(link => {
       const rawTarget = link.getAttribute("data-view") || link.getAttribute("data-target") || link.getAttribute("href") || "";
       const linkTarget = rawTarget.replace(/^#/, "").replace(/^view-/, "");
+      
       link.classList.toggle("active", linkTarget === cleanTarget);
     });
   }
 
+  // Asignar eventos a los links de la barra de navegación
   navLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
+      
+      // Obtiene el objetivo usando e.currentTarget (garantiza capturar el <a> aunque pises el <i> o <span>)
       const currentLink = e.currentTarget;
       const target = currentLink.getAttribute("data-view") || 
                      currentLink.getAttribute("data-target") || 
                      currentLink.getAttribute("href");
+      
       switchView(target);
     });
   });
@@ -41,18 +46,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnGoToCalendar.addEventListener("click", () => switchView("calendario"));
   }
 
-  // RENDERIZADO DE PARTIDOS
+  // RENDERIZADO DE PARTIDOS CON SEPARADOR DIFUMINADO
   function cargarJornada(jornadaKey) {
     if (typeof datosJornadas === "undefined" || !datosJornadas[jornadaKey]) return;
 
     const partidos = datosJornadas[jornadaKey];
 
+    // Si es la Gran Final, activamos la vista vertical de 1 sola columna
     if (String(jornadaKey) === "final") {
       matchesContainer.classList.add("full-width-stack");
     } else {
       matchesContainer.classList.remove("full-width-stack");
     }
 
+    // Marcar pestaña activa
     tabButtons.forEach(btn => {
       const key = btn.getAttribute("data-jornada");
       btn.classList.toggle("active", String(key) === String(jornadaKey));
@@ -81,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               <span class="team-name">${partido.local}</span>
             </div>
 
-            <div class="score">${partido.marcador || "-- - --"}</div>
+            <div class="score">${partido.marcador}</div>
 
             <div class="team away">
               <span class="team-name">${partido.visitante}</span>
@@ -96,7 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchesContainer.innerHTML = html;
   }
 
-  // EVENTOS DE PESTAÑAS
+  // EVENTOS PARA LAS PESTAÑAS DE JORNADAS
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const jornadaKey = btn.getAttribute("data-jornada");
@@ -104,49 +111,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // 1. Intentar sincronizar datos con Google Sheets
-  await sincronizarMarcadores();
-
-  // 2. Pintar la UI (garantizado que se ejecuta SIEMPRE)
+  // Inicializar cargando la Jornada 1 por defecto
   cargarJornada("1");
+  
+  // Calcular y renderizar la tabla al cargar el DOM
   calcularYRenderizarTabla();
 });
 
-// FUNCIÓN DE SINCRONIZACIÓN MEJORADA
-async function sincronizarMarcadores() {
-  if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("PEGA_AQUI_TU_ENLACE")) return;
-
-  try {
-    const response = await fetch(SHEET_CSV_URL);
-    if (!response.ok) return;
-
-    const csvText = await response.text();
-    const lineas = csvText.split(/\r?\n/).filter(l => l.trim() !== "");
-
-    // i = 1 para saltar la fila de encabezados
-    for (let i = 1; i < lineas.length; i++) {
-      const columnas = lineas[i].split(",").map(c => c.replace(/^"|"$/g, '').trim());
-      const [idPartido, local, marcador] = columnas;
-
-      if (!idPartido || !marcador) continue;
-
-      const partes = idPartido.split("-");
-      const jornadaKey = partes[0];
-
-      if (typeof datosJornadas !== "undefined" && datosJornadas[jornadaKey]) {
-        // Busca el partido por su ID exacto (ej. "1-1") o en su defecto por el equipo local
-        const partido = datosJornadas[jornadaKey].find(p => p.id === idPartido || p.local.toLowerCase() === local.toLowerCase());
-        if (partido) {
-          partido.marcador = marcador;
-        }
-      }
-    }
-  } catch (error) {
-    console.warn("No se pudieron descargar los datos remotos, cargando estructura local:", error);
-  }
-}
-
-// CÁLCULO DE TABLA DE POSICIONES
+// Función para calcular y renderizar la tabla de posiciones dinámicamente
 function calcularYRenderizarTabla() {
   if (typeof datosJornadas === "undefined") return;
 
@@ -156,7 +128,11 @@ function calcularYRenderizarTabla() {
     if (isNaN(jornadaKey)) return;
 
     datosJornadas[jornadaKey].forEach(partido => {
-      // Registrar todos los equipos participantes aunque no hayan jugado
+      if (!partido.marcador || partido.marcador.includes("--") || partido.marcador === "VS") return;
+
+      const [puntosLocal, puntosVisitante] = partido.marcador.split("-").map(p => parseInt(p.trim(), 10));
+      if (isNaN(puntosLocal) || isNaN(puntosVisitante)) return;
+
       [
         { nombre: partido.local, badge: partido.badgeLocal },
         { nombre: partido.visitante, badge: partido.badgeVisitante }
@@ -165,12 +141,6 @@ function calcularYRenderizarTabla() {
           equipos[eq.nombre] = { nombre: eq.nombre, badge: eq.badge, pj: 0, pg: 0, pp: 0, pf: 0, pc: 0, dif: 0, pts: 0 };
         }
       });
-
-      // Ignorar partidos no jugados
-      if (!partido.marcador || partido.marcador.includes("--") || partido.marcador === "VS") return;
-
-      const [puntosLocal, puntosVisitante] = partido.marcador.split("-").map(p => parseInt(p.trim(), 10));
-      if (isNaN(puntosLocal) || isNaN(puntosVisitante)) return;
 
       equipos[partido.local].pj += 1;
       equipos[partido.local].pf += puntosLocal;
@@ -208,10 +178,12 @@ function calcularYRenderizarTabla() {
   const tbody = document.querySelector(".table-container table tbody");
   if (!tbody) return;
 
-  tbody.innerHTML = listaEquipos.map((eq, index) => {
+tbody.innerHTML = listaEquipos.map((eq, index) => {
     const posicion = index + 1;
     const logo = typeof renderLogo === "function" ? renderLogo(eq.nombre, eq.badge) : "";
     const difFormatted = eq.dif > 0 ? `+${eq.dif}` : eq.dif;
+
+    // Determina la clase según el puesto
     const posClass = posicion <= 4 ? "pos-qualify" : "pos-eliminated";
 
     return `
