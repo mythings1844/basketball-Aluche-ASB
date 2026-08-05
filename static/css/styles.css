@@ -154,13 +154,18 @@ main {
   position: relative;
 }
 
-.section-title::after {
-  content: '';
-  display: block;
-  width: 30px;
-  height: 3px;
-  background-color: var(--primary);
-  margin-top: 4px;
+/* Ejemplo para la línea debajo del título */
+.section-title::after, 
+  h2::after {
+    content: "";
+    display: block;
+    height: 4px;                  /* Grosor de la línea */
+    width: 300px;                 /* Ajusta la longitud (hazla más larga aquí) */
+    margin-top: 6px;              /* Separación con el texto */
+    border-radius: 2px;           /* Bordes ligeramente redondeados */
+    
+  /* Gradiente: Del color rojo intenso al transparente */
+  background: linear-gradient(to right, #bd0808 0%, rgba(189, 8, 8, 0) 100%);
 }
 
 /* ================= CALENDARIO ================= */
