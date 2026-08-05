@@ -1004,3 +1004,50 @@ nav.main-nav .nav-link {
   height: auto;                  /* Mantiene la proporción de la imagen */
   transform: translateX(-15px);  /* Mantiene el logo desplazado a la izquierda */
 }
+
+/* Estilo botones */
+.tab-btn {
+  /* 1. DESACTIVAR LA SELECCIÓN DE TEXTO (Evita el azul molesto al hacer clic) */
+  -webkit-user-select: none; /* Safari / Chrome / Edge */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE / Edge antiguo */
+  user-select: none;         /* Estándar */
+
+  /* 2. FORMATO Y TIPOGRAFÍA */
+  font-family: 'Oswald', 'Montserrat', sans-serif; /* Tipografía más deportiva */
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #333333;
+
+  /* 3. BORDES, FONDOS Y ESPACIADO */
+  background-color: #e9ecef;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
+
+  /* 4. TRANSICIONES Y EFECTOS */
+  transition: all 0.2s ease-in-out;
+  outline: none; /* Elimina el borde azul de enfoque en el clic */
+}
+
+/* EFECTO AL PASAR EL RATÓN (HOVER) */
+.tab-btn:hover {
+  background-color: #d6d8db;
+  transform: translateY(-1px); /* Pequeño levante táctil */
+}
+
+/* BOTÓN ACTIVO (Jornada seleccionada) */
+.tab-btn.active {
+  background-color: #8b0000; /* Rojo oscuro Aluche Streetball */
+  color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* BOTÓN COMPLETADO (Línea verde que añadimos) */
+.tab-btn.completed {
+  border-bottom: 6px solid #28a745 !important;
+}
