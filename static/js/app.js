@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               ${logoVisitante}
             </div>
           </div>
-          <div class="match-location">📍 ${partido.cancha}</div>
         </div>
       `;
     });
