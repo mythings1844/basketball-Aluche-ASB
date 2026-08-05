@@ -899,3 +899,97 @@ nav.main-nav .nav-link {
   font-size: 0.85rem !important;
   opacity: 0.85 !important;
 }
+
+/* Alineación interna del botón con icono */
+.main-nav .nav-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important; /* Espacio entre el icono y el texto */
+}
+
+/* Tamaño y comportamiento de los iconos */
+.main-nav .nav-link i {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Adaptativo para móviles */
+@media (max-width: 768px) {
+  .main-nav .nav-link {
+    gap: 6px !important;
+  }
+  
+  .main-nav .nav-link i {
+    font-size: 0.95rem;
+  }
+}
+
+/* =========================================================
+   CORRECCIÓN DE MENÚ PARA MÓVILES (MAX-WIDTH: 768PX)
+   ========================================================= */
+@media (max-width: 768px) {
+  nav.main-nav {
+    justify-content: center !important;
+    padding: 0 2px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  nav.main-nav ul {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 2px !important;
+  }
+
+  nav.main-nav ul li {
+    flex: 1 1 0% !important; /* Cada botón ocupa exactamente 1/3 de la pantalla */
+    min-width: 0 !important;
+    text-align: center !important;
+  }
+
+  .main-nav .nav-link {
+    width: 100% !important;
+    font-size: 0.7rem !important; /* Ajuste fino de la tipografía */
+    padding: 8px 1px !important; /* Reduce el relleno vertical y lateral */
+    gap: 3px !important; /* Espacio mínimo entre icono y texto */
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    line-height: 1.1 !important; /* Altura de línea para textos de 2 líneas */
+  }
+
+  .main-nav .nav-link i {
+    font-size: 0.8rem !important; /* Icono un poco más compacto */
+  }
+
+  .main-nav .nav-link span {
+    white-space: normal !important; /* Permite salto de línea si la palabra es larga */
+    word-break: keep-all !important;
+    text-overflow: clip !important;
+    overflow: visible !important;
+    text-align: center !important;
+  }
+}
+
+/* Estilo base para la celda de posición */
+.table-container td.col-pos {
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+/* Puestos 1 al 4: Verde traslúcido suave */
+.table-container td.pos-qualify {
+  background-color: rgba(34, 197, 94, 0.18) !important;
+  color: #15803d !important; /* Verde oscuro para buen contraste */
+}
+
+/* Puestos 5 al 8: Rojo traslúcido suave */
+.table-container td.pos-eliminated {
+  background-color: rgba(239, 68, 68, 0.18) !important;
+  color: #b91c1c !important; /* Rojo oscuro para buen contraste */
+}

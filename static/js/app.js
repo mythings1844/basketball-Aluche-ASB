@@ -9,10 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchView(targetName) {
     if (!targetName) return;
 
-    // Normaliza el nombre eliminando el prefijo "view-" si viene incluido
-    const cleanTarget = targetName.replace(/^view-/, "");
+    // Normaliza el nombre eliminando prefijos "view-" o "#"
+    const cleanTarget = targetName.replace(/^#/, "").replace(/^view-/, "");
 
-    // 1. Alternar visibilidad de las secciones (<section id="view-calendario"> / <section id="view-resultados">)
+    // 1. Alternar visibilidad de las secciones (<section id="view-resultados">, etc.)
     views.forEach(view => {
       const isTarget = view.id === `view-${cleanTarget}`;
       view.classList.toggle("hidden", !isTarget);
@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Actualizar estado activo en los enlaces de navegación
     navLinks.forEach(link => {
-      const linkTarget = (link.getAttribute("data-view") || link.getAttribute("data-target") || "").replace(/^view-/, "");
+      const rawTarget = link.getAttribute("data-view") || link.getAttribute("data-target") || link.getAttribute("href") || "";
+      const linkTarget = rawTarget.replace(/^#/, "").replace(/^view-/, "");
+      
       link.classList.toggle("active", linkTarget === cleanTarget);
     });
   }
@@ -29,7 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
   navLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      const target = link.getAttribute("data-view") || link.getAttribute("data-target");
+      
+      // Obtiene el objetivo usando e.currentTarget (garantiza capturar el <a> aunque pises el <i> o <span>)
+      const currentLink = e.currentTarget;
+      const target = currentLink.getAttribute("data-view") || 
+                     currentLink.getAttribute("data-target") || 
+                     currentLink.getAttribute("href");
+      
       switchView(target);
     });
   });
@@ -105,10 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicializar cargando la Jornada 1 por defecto
   cargarJornada("1");
+  
+  // Calcular y renderizar la tabla al cargar el DOM
+  calcularYRenderizarTabla();
 });
 
 // Función para calcular y renderizar la tabla de posiciones dinámicamente
 function calcularYRenderizarTabla() {
+  if (typeof datosJornadas === "undefined") return;
+
   const equipos = {};
 
   Object.keys(datosJornadas).forEach(jornadaKey => {
@@ -165,13 +178,17 @@ function calcularYRenderizarTabla() {
   const tbody = document.querySelector(".table-container table tbody");
   if (!tbody) return;
 
-  tbody.innerHTML = listaEquipos.map((eq, index) => {
+tbody.innerHTML = listaEquipos.map((eq, index) => {
+    const posicion = index + 1;
     const logo = typeof renderLogo === "function" ? renderLogo(eq.nombre, eq.badge) : "";
     const difFormatted = eq.dif > 0 ? `+${eq.dif}` : eq.dif;
 
+    // Determina la clase según el puesto
+    const posClass = posicion <= 4 ? "pos-qualify" : "pos-eliminated";
+
     return `
       <tr>
-        <td><strong>${index + 1}</strong></td>
+        <td class="col-pos ${posClass}"><strong>${posicion}</strong></td>
         <td>
           <div style="display: flex; align-items: center; gap: 10px;">
             ${logo}
@@ -189,8 +206,3 @@ function calcularYRenderizarTabla() {
     `;
   }).join("");
 }
-
-// Ejecutar al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-  calcularYRenderizarTabla();
-});

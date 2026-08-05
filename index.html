@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- CSS -->
   <link rel="stylesheet" href="static/css/styles.css">
@@ -37,9 +38,24 @@
     <!-- Barra de navegación por debajo del header -->
     <nav class="main-nav">
       <ul>
-        <li><a href="#resultados" class="nav-link active" data-target="view-resultados">RESULTADOS</a></li>
-        <li><a href="#calendario" class="nav-link" data-target="view-calendario">CALENDARIO</a></li>
-        <li><a href="#quienes-somos" class="nav-link" data-target="view-quienes-somos">QUIÉNES SOMOS</a></li>
+        <li>
+          <a href="#resultados" class="nav-link active">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Resultados</span>
+          </a>
+        </li>
+        <li>
+          <a href="#calendario" class="nav-link">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Calendario</span>
+          </a>
+        </li>
+        <li>
+          <a href="#quienes-somos" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Conócenos</span>
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -103,8 +119,21 @@
               </tbody>
             </table>
           </div>
-          <div class="table-legend">
-            ℹ️ PJ: Partidos Jugados | PG: Partidos Ganados | PP: Partidos Perdidos | PF: Puntos a Favor | PC: Puntos en Contra | DIF: Diferencia | PTS: Puntos
+          <div class="table-legend" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 0.75rem; color: #666666;">
+            <!-- Indicadores de clasificación por color -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+              <span style="display: flex; align-items: center; gap: 6px;">
+                <span style="width: 12px; height: 12px; background-color: rgba(34, 197, 94, 0.4); border: 1px solid #15803d; border-radius: 3px;"></span> Se clasifican (1º - 4º)
+              </span>
+              <span style="display: flex; align-items: center; gap: 6px;">
+                <span style="width: 12px; height: 12px; background-color: rgba(239, 68, 68, 0.4); border: 1px solid #b91c1c; border-radius: 3px;"></span> Eliminados (5º - 8º)
+              </span>
+            </div>
+
+            <!-- Abreviaturas de estadísticas -->
+            <div>
+              ℹ️ PJ: Partidos Jugados | PG: Partidos Ganados | PP: Partidos Perdidos | PF: Puntos a Favor | PC: Puntos en Contra | DIF: Diferencia | PTS: Puntos
+            </div>
           </div>
         </section>
       </section>
@@ -112,7 +141,7 @@
       <!-- VISTA: QUIÉNES SOMOS (Misma estructura que Calendario) -->
       <!-- VISTA: QUIÉNES SOMOS -->
           <section id="view-quienes-somos" class="page-view hidden">
-            <h2 class="section-title">Quiénes Somos</h2>
+            <h2 class="section-title">Conócenos</h2>
             <div class="calendar-container">
               <img src="img/aluche_logo.png" alt="Quiénes Somos - Aluche StreetBall" class="calendar-img">
             </div>
