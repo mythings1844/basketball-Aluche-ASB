@@ -146,11 +146,44 @@ async function sincronizarMarcadores() {
 }
 
 // CÁLCULO DE TABLA DE POSICIONES
+
+/* ==========================================================================
+   LÓGICA DE CÁLCULO DE TABLA Y DESEMPATES (REGLAMENTO FIBA)
+   ==========================================================================
+
+   1. LÍDER Y POSICIONES GENERALES:
+      - Queda por encima (líder) el equipo que sume MÁS PUNTOS totales.
+      - Asignación de puntos por partido:
+        • Victoria = 2 puntos
+        • Derrota  = 1 punto
+
+   2. SECUENCIA DE DESEMPATE (SI DOS O MÁS EQUIPOS EMPATAN EN PUNTOS):
+
+      - 1.º PARTIDO DIRECTO (EL DUELO DIRECTO MANDA):
+        Queda por encima el equipo que haya ganado el partido entre ellos.
+        (Ejemplo: Si B le ganó a A, B queda por delante de A aunque A tenga 
+        mejor diferencia de puntos global).
+
+      - 2.º MINI-LIGA (SI EMPATAN 3 O MÁS EQUIPOS):
+        Se crea una tabla evaluando ÚNICAMENTE los partidos jugados entre los 
+        equipos empatados (Puntos -> Diferencia de puntos -> Puntos a favor).
+
+      - 3.º DIFERENCIA DE PUNTOS GENERAL (DIF):
+        Si no han jugado entre sí todavía, 
+        se mira la diferencia de puntos global de todo el torneo (PF - PC).
+
+      - 4.º PUNTOS A FAVOR GENERAL (PF):
+        Puntos totales anotados a lo largo del torneo.
+   ========================================================================== */
+
+// CÁLCULO DE TABLA DE POSICIONES CON REGLAMENTO FIBA
 function calcularYRenderizarTabla() {
   if (typeof datosJornadas === "undefined") return;
 
   const equipos = {};
+  const partidosJugados = [];
 
+  // 1. Procesar partidos y construir acumulados generales
   Object.keys(datosJornadas).forEach(jornadaKey => {
     if (isNaN(jornadaKey)) return;
 
@@ -171,19 +204,29 @@ function calcularYRenderizarTabla() {
       const [puntosLocal, puntosVisitante] = partido.marcador.split("-").map(p => parseInt(p.trim(), 10));
       if (isNaN(puntosLocal) || isNaN(puntosVisitante)) return;
 
+      // Guardar el registro del partido jugado para los desempates FIBA
+      partidosJugados.push({
+        local: partido.local,
+        visitante: partido.visitante,
+        puntosLocal,
+        puntosVisitante
+      });
+
+      // Acumular datos del local
       equipos[partido.local].pj += 1;
       equipos[partido.local].pf += puntosLocal;
       equipos[partido.local].pc += puntosVisitante;
 
+      // Acumular datos del visitante
       equipos[partido.visitante].pj += 1;
       equipos[partido.visitante].pf += puntosVisitante;
       equipos[partido.visitante].pc += puntosLocal;
 
       if (puntosLocal > puntosVisitante) {
         equipos[partido.local].pg += 1;
-        equipos[partido.local].pts += 2;
+        equipos[partido.local].pts += 2; // En FIBA: Victoria = 2 pts
         equipos[partido.visitante].pp += 1;
-        equipos[partido.visitante].pts += 1;
+        equipos[partido.visitante].pts += 1; // En FIBA: Derrota = 1 pt
       } else {
         equipos[partido.visitante].pg += 1;
         equipos[partido.visitante].pts += 2;
@@ -198,12 +241,76 @@ function calcularYRenderizarTabla() {
     return eq;
   });
 
+  // 2. Función auxiliar para desempates en enfrentamiento directo (Regla FIBA)
+  function compararDirectoFIBA(eqA, eqB, grupoEmpatados) {
+    const nombresGrupo = new Set(grupoEmpatados.map(e => e.nombre));
+
+    // Filtrar únicamente los partidos jugados ENTRE los miembros del grupo empatado
+    const partidosDirectos = partidosJugados.filter(
+      p => nombresGrupo.has(p.local) && nombresGrupo.has(p.visitante)
+    );
+
+    // Si no han jugado entre sí todavía dentro del grupo
+    if (partidosDirectos.length === 0) return 0;
+
+    // Calcular estadísticas dentro de la "mini-tabla" del grupo empatado
+    const statsA = { pts: 0, pf: 0, pc: 0 };
+    const statsB = { pts: 0, pf: 0, pc: 0 };
+
+    partidosDirectos.forEach(p => {
+      if (p.local === eqA.nombre || p.visitante === eqA.nombre) {
+        const esLocal = p.local === eqA.nombre;
+        const pf = esLocal ? p.puntosLocal : p.puntosVisitante;
+        const pc = esLocal ? p.puntosVisitante : p.puntosLocal;
+        statsA.pf += pf;
+        statsA.pc += pc;
+        statsA.pts += (pf > pc) ? 2 : 1;
+      }
+      if (p.local === eqB.nombre || p.visitante === eqB.nombre) {
+        const esLocal = p.local === eqB.nombre;
+        const pf = esLocal ? p.puntosLocal : p.puntosVisitante;
+        const pc = esLocal ? p.puntosVisitante : p.puntosLocal;
+        statsB.pf += pf;
+        statsB.pc += pc;
+        statsB.pts += (pf > pc) ? 2 : 1;
+      }
+    });
+
+    // Criterio 1 FIBA en directo: Puntos de clasificación entre ellos
+    if (statsB.pts !== statsA.pts) return statsB.pts - statsA.pts;
+
+    // Criterio 2 FIBA en directo: Diferencia de puntos entre ellos
+    const difA = statsA.pf - statsA.pc;
+    const difB = statsB.pf - statsB.pc;
+    if (difB !== difA) return difB - difA;
+
+    // Criterio 3 FIBA en directo: Puntos anotados a favor entre ellos
+    if (statsB.pf !== statsA.pf) return statsB.pf - statsA.pf;
+
+    return 0; // Si continúan totalmente igualados en directo
+  }
+
+  // 3. Ordenar la tabla usando los criterios FIBA completamos
   listaEquipos.sort((a, b) => {
+    // 1º Criterio: Puntos de clasificación en la tabla general
     if (b.pts !== a.pts) return b.pts - a.pts;
+
+    // Si hay empate en puntos generales, buscamos todos los equipos con esos mismos PTS
+    const empatados = listaEquipos.filter(e => e.pts === a.pts);
+
+    if (empatados.length >= 2) {
+      const resDirecto = compararDirectoFIBA(a, b, empatados);
+      if (resDirecto !== 0) return resDirecto;
+    }
+
+    // 2º Criterio (Si persiste el empate): Diferencia general del torneo
     if (b.dif !== a.dif) return b.dif - a.dif;
+
+    // 3º Criterio: Puntos a favor general del torneo
     return b.pf - a.pf;
   });
 
+  // 4. Renderizar el HTML
   const tbody = document.querySelector(".table-container table tbody");
   if (!tbody) return;
 
