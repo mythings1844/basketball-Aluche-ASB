@@ -1,5 +1,19 @@
-// URL de tu hoja publicada en CSV
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?output=csv";
+// URL para el entorno PRO (GitHub Pages)
+const SHEET_PRO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?gid=0&single=true&output=csv";
+
+// URL para tus pruebas en LOCAL (Pega aquí la URL en CSV de tu hoja de pruebas)
+const SHEET_LOCAL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSohtSgegLqJZ34ssDO9UyhHjWBm0k8dJcC7EFiV6s9oi-wp2S2JVo-JTz-6pidywP71VDxy7rs7hMO/pub?gid=0&single=true&output=csv";
+
+// Detecta si estás ejecutando el proyecto en tu ordenador (localhost / 127.0.0.1)
+const host = window.location.hostname;
+const esLocal = host === "localhost" || 
+                host === "127.0.0.1" || 
+                host.startsWith("192.168.") || 
+                host.startsWith("10.") || 
+                window.location.protocol === "file:";
+
+// Selecciona la URL correcta según dónde estés trabajando
+const SHEET_CSV_URL = esLocal ? SHEET_LOCAL : SHEET_PRO;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const matchesContainer = document.getElementById("matchesContainer");
@@ -95,6 +109,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchesContainer.innerHTML = html;
   }
 
+  // ACTUALIZA AUTOMÁTICAMENTE EL ESTADO DE LAS JORNADAS
+  function actualizarEstadoJornadas() {
+    if (typeof datosJornadas === "undefined") return;
+
+    tabButtons.forEach(btn => {
+      const jornadaKey = btn.getAttribute("data-jornada");
+
+      // Solo queremos calcular las jornadas 1 a 7
+      // Semifinales y final NO se marcan automáticamente como completadas
+      if (!["1", "2", "3", "4", "5", "6", "7"].includes(String(jornadaKey))) {
+        btn.classList.remove("completed");
+        return;
+      }
+
+      const partidos = datosJornadas[jornadaKey];
+
+      // Si no existen partidos, no está completa
+      if (!Array.isArray(partidos) || partidos.length === 0) {
+        btn.classList.remove("completed");
+        return;
+      }
+
+      // Todos los partidos tienen que tener un marcador REAL
+      const jornadaCompleta = partidos.every(partido => {
+        const marcador = String(partido.marcador || "").trim();
+
+        // "VS", "-- - --", vacío, etc. NO son resultados
+        if (
+          marcador === "" ||
+          marcador === "-- - --" ||
+          marcador === "--" ||
+          marcador.toUpperCase() === "VS"
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+
+      // Verde si está completa, quitar verde si no
+      btn.classList.toggle("completed", jornadaCompleta);
+    });
+  }
+
   // EVENTOS DE PESTAÑAS
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -106,7 +164,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 1. Intentar sincronizar datos con Google Sheets
   await sincronizarMarcadores();
 
-  // 2. Pintar la UI (garantizado que se ejecuta SIEMPRE)
+  // 2. Actualizar automáticamente qué jornadas están completas
+  actualizarEstadoJornadas();
+
+  // 3. Pintar la UI (garantizado que se ejecuta SIEMPRE)
   cargarJornada("1");
   calcularYRenderizarTabla();
 });
