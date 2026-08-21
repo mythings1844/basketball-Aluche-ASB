@@ -186,7 +186,9 @@ async function sincronizarMarcadores() {
     // i = 1 para saltar la fila de encabezados
     for (let i = 1; i < lineas.length; i++) {
       const columnas = lineas[i].split(",").map(c => c.replace(/^"|"$/g, '').trim());
-      const [idPartido, local, marcador] = columnas;
+      
+      // AHORA EXTRAEMOS 4 COLUMNAS: idPartido, local, visitante y marcador
+      const [idPartido, local, visitante, marcador] = columnas;
 
       if (!idPartido || !marcador) continue;
 
@@ -194,7 +196,7 @@ async function sincronizarMarcadores() {
       const jornadaKey = partes[0];
 
       if (typeof datosJornadas !== "undefined" && datosJornadas[jornadaKey]) {
-        // Busca el partido por su ID exacto (ej. "1-1") o en su defecto por el equipo local
+        // Busca el partido por su ID exacto (ej. "1-1") o por el equipo local
         const partido = datosJornadas[jornadaKey].find(p => p.id === idPartido || p.local.toLowerCase() === local.toLowerCase());
         if (partido) {
           partido.marcador = marcador;
