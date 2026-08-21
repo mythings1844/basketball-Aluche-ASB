@@ -64,12 +64,12 @@ const datosJornadas = {
     { fecha: "Sábado, 05/09/2026 - 20:15", local: "Marqués de Vadillo", badgeLocal: "MV", visitante: "A.Q.P", badgeVisitante: "AQP", marcador: "-- - --", cancha: "Cancha Principal" }
   ],
   "semis": [
-    { fecha: "Viernes, 11/09/2026 - 19:00", local: "1.° Clasificado", badgeLocal: "1º", visitante: "4.° Clasificado", badgeVisitante: "4º", marcador: "VS", cancha: "Cancha Principal" },
-    { fecha: "Viernes, 11/09/2026 - 20:15", local: "2.° Clasificado", badgeLocal: "2º", visitante: "3.° Clasificado", badgeVisitante: "3º", marcador: "VS", cancha: "Cancha Principal" }
+    { id: "semis-1", fecha: "Viernes, 11/09/2026 - 19:00", local: "1.° Clasificado", badgeLocal: "1º", visitante: "4.° Clasificado", badgeVisitante: "4º", marcador: "VS", cancha: "Cancha Principal" },
+    { id: "semis-2", fecha: "Viernes, 11/09/2026 - 20:15", local: "2.° Clasificado", badgeLocal: "2º", visitante: "3.° Clasificado", badgeVisitante: "3º", marcador: "VS", cancha: "Cancha Principal" }
   ],
   "final": [
-    { fecha: "Partido 1 — Sábado, 12/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal" },
-    { fecha: "Partido 2 — Viernes, 18/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal" },
-    { fecha: "Partido 3* — Sábado, 19/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal (De ser necesario)" }
+    { id: "final-1", fecha: "Partido 1 — Sábado, 12/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal" },
+    { id: "final-2", fecha: "Partido 2 — Viernes, 18/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal" },
+    { id: "final-3", fecha: "Partido 3* — Sábado, 19/09/2026 - 20:00", local: "Finalista 1", badgeLocal: "S1", visitante: "Finalista 2", badgeVisitante: "S2", marcador: "VS", cancha: "Cancha Principal (De ser necesario)" }
   ]
 };

@@ -1051,3 +1051,119 @@ nav.main-nav .nav-link {
 .tab-btn.completed {
   border-bottom: 6px solid #28a745 !important;
 }
+
+/* EFECTO DE CURSOR Y HOVER EN LA IMAGEN */
+#imgCalendario {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+#imgCalendario:hover {
+  opacity: 0.92;
+  transform: scale(1.01);
+}
+
+/* CONTENEDOR MODAL DE PANTALLA COMPLETA */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+/* IMAGEN AMPLIADA */
+.modal-content {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  animation: modalZoom 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* BOTÓN DE CIERRE (X) */
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.close-modal:hover {
+  color: #ef4444;
+}
+
+/* ANIMACIÓN DE APERTURA */
+@keyframes modalZoom {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Estilos para la tabla emergente en pantalla completa */
+/* MODAL CENTRADO */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+/* TARJETA BLANCA DE LA TABLA (SIN BARRAS DE SCROLL Y BIEN CENTRADA) */
+.modal-table-wrapper {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden !important; /* Desactiva completamente cualquier barra de desplazamiento */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: auto;
+}
+
+.modal-table-scaler {
+  display: block;
+}
+
+.modal-table-scaler .table-container {
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible !important; /* Para que la tabla se mantenga entera al medirla */
+}
+
+/* BOTÓN X FIJO FUERA DE LA TARJETA */
+.modal .close-modal {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10000;
+}
+

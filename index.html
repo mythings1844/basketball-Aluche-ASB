@@ -65,7 +65,7 @@
       <section id="view-calendario" class="page-view hidden">
         <h2 class="section-title">Calendario</h2>
         <div class="calendar-container">
-          <img src="img/calendar_new.png" alt="Calendario de Juegos - Torneo Callejero de Baloncesto" class="calendar-img">
+          <img src="img/calendar_new.png" id="imgCalendario" alt="Calendario de Juegos - Torneo Callejero de Baloncesto" class="calendar-img" style="cursor: pointer;">
         </div>
       </section>
 
@@ -100,6 +100,9 @@
         <!-- TABLA DE POSICIONES -->
         <section>
           <h2 class="section-title">Posiciones</h2>
+            <p style="font-size: 0.75rem; color: #777777; margin-top: -6px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-magnifying-glass-plus"></i> Pulsa la tabla para ampliar
+            </p>
           <div class="table-container">
             <table>
               <thead>
@@ -163,6 +166,16 @@
       </div>
     </footer>
 
+  </div>
+
+  <!-- MODAL ÚNICO -->
+  <div id="imageModal" class="modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="imgModalTarget" alt="Ampliado" style="display: none;">
+    
+    <div class="modal-table-wrapper" id="tableModalTarget" style="display: none;">
+      <div class="modal-table-scaler"></div>
+    </div>
   </div>
 
   <!-- Scripts -->
