@@ -201,6 +201,7 @@ async function sincronizarMarcadores() {
 }
 
 // CÁLCULO DE TABLA DE POSICIONES CON REGLAMENTO FIBA
+// CÁLCULO DE TABLA DE POSICIONES CON REGLAMENTO FIBA Y PENALIZACIÓN POR INCOMPARECENCIA
 function calcularYRenderizarTabla() {
   if (typeof datosJornadas === "undefined") return;
 
@@ -240,16 +241,20 @@ function calcularYRenderizarTabla() {
       equipos[partido.visitante].pf += puntosVisitante;
       equipos[partido.visitante].pc += puntosLocal;
 
+      // DETECCIÓN DE INCOMPARECENCIA (FORFEIT)
+      const esForfeitVisitante = (puntosLocal === 20 && puntosVisitante === 0);
+      const esForfeitLocal = (puntosLocal === 0 && puntosVisitante === 20);
+
       if (puntosLocal > puntosVisitante) {
         equipos[partido.local].pg += 1;
         equipos[partido.local].pts += 2;
         equipos[partido.visitante].pp += 1;
-        equipos[partido.visitante].pts += 1;
+        equipos[partido.visitante].pts += esForfeitVisitante ? 0 : 1;
       } else {
         equipos[partido.visitante].pg += 1;
         equipos[partido.visitante].pts += 2;
         equipos[partido.local].pp += 1;
-        equipos[partido.local].pts += 1;
+        equipos[partido.local].pts += esForfeitLocal ? 0 : 1;
       }
     });
   });
@@ -276,17 +281,19 @@ function calcularYRenderizarTabla() {
         const esLocal = p.local === eqA.nombre;
         const pf = esLocal ? p.puntosLocal : p.puntosVisitante;
         const pc = esLocal ? p.puntosVisitante : p.puntosLocal;
+        const esForfeit = (pf === 0 && pc === 20);
         statsA.pf += pf;
         statsA.pc += pc;
-        statsA.pts += (pf > pc) ? 2 : 1;
+        statsA.pts += (pf > pc) ? 2 : (esForfeit ? 0 : 1);
       }
       if (p.local === eqB.nombre || p.visitante === eqB.nombre) {
         const esLocal = p.local === eqB.nombre;
         const pf = esLocal ? p.puntosLocal : p.puntosVisitante;
         const pc = esLocal ? p.puntosVisitante : p.puntosLocal;
+        const esForfeit = (pf === 0 && pc === 20);
         statsB.pf += pf;
         statsB.pc += pc;
-        statsB.pts += (pf > pc) ? 2 : 1;
+        statsB.pts += (pf > pc) ? 2 : (esForfeit ? 0 : 1);
       }
     });
 
