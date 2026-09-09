@@ -1,10 +1,15 @@
-// URL para el entorno PRO (GitHub Pages)
-const SHEET_PRO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?gid=0&single=true&output=csv";
+// ==========================================
+// CONFIGURACIÓN DE URLS (LOCAL VS PRO)
+// ==========================================
+// Partidos / Resultados
+const SHEET_PARTIDOS_PRO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?gid=0&single=true&output=csv";
+const SHEET_PARTIDOS_LOCAL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSohtSgegLqJZ34ssDO9UyhHjWBm0k8dJcC7EFiV6s9oi-wp2S2JVo-JTz-6pidywP71VDxy7rs7hMO/pub?gid=0&single=true&output=csv";
 
-// URL para tus pruebas en LOCAL
-const SHEET_LOCAL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSohtSgegLqJZ34ssDO9UyhHjWBm0k8dJcC7EFiV6s9oi-wp2S2JVo-JTz-6pidywP71VDxy7rs7hMO/pub?gid=0&single=true&output=csv";
+// Noticias
+const SHEET_NOTICIAS_PRO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcA_VSyzux4ZBuDVvQe35kBlcSaBM5g46rY9rBb3Jr1hSlGkq9_9aCxYN_vWsziHzUWafWKhKKD5lE/pub?gid=1862417261&single=true&output=csv";
+const SHEET_NOTICIAS_LOCAL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSohtSgegLqJZ34ssDO9UyhHjWBm0k8dJcC7EFiV6s9oi-wp2S2JVo-JTz-6pidywP71VDxy7rs7hMO/pub?gid=386113331&single=true&output=csv";
 
-// Detecta si estás ejecutando el proyecto en tu ordenador (localhost / 127.0.0.1)
+// Detección de entorno local
 const host = window.location.hostname;
 const esLocal = host === "localhost" || 
                 host === "127.0.0.1" || 
@@ -12,9 +17,13 @@ const esLocal = host === "localhost" ||
                 host.startsWith("10.") || 
                 window.location.protocol === "file:";
 
-// Selecciona la URL correcta según dónde estés trabajando
-const SHEET_CSV_URL = esLocal ? SHEET_LOCAL : SHEET_PRO;
+const SHEET_CSV_URL = esLocal ? SHEET_PARTIDOS_LOCAL : SHEET_PARTIDOS_PRO;
+const URL_CSV_NOTICIAS = esLocal ? SHEET_NOTICIAS_LOCAL : SHEET_NOTICIAS_PRO;
 
+
+// ==========================================
+// INICIALIZACIÓN UNIFICADA
+// ==========================================
 document.addEventListener("DOMContentLoaded", async () => {
   const matchesContainer = document.getElementById("matchesContainer");
   const tabButtons = document.querySelectorAll(".tab-btn");
@@ -22,11 +31,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const views = document.querySelectorAll(".page-view");
   const btnGoToCalendar = document.getElementById("btnGoToCalendar");
 
-  // NAVEGACIÓN ENTRE SECCIONES DEL MENÚ
-  function switchView(targetName) {
+  // 1. Manejo unificado de Hash y vistas
+  function switchView(targetName, updateHash = true) {
     if (!targetName) return;
 
     const cleanTarget = targetName.replace(/^#/, "").replace(/^view-/, "");
+
+    if (updateHash && window.location.hash !== `#${cleanTarget}`) {
+      window.location.hash = cleanTarget;
+    }
 
     views.forEach(view => {
       const isTarget = view.id === `view-${cleanTarget}`;
@@ -40,24 +53,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  function cambiarVistaSegunHash() {
+    const currentHash = window.location.hash ? window.location.hash.replace("#", "") : "noticias";
+    switchView(currentHash, false);
+  }
+
+  // Eventos del menú principal
   navLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      const currentLink = e.currentTarget;
-      const target = currentLink.getAttribute("data-view") || 
-                     currentLink.getAttribute("data-target") || 
-                     currentLink.getAttribute("href");
-      switchView(target);
+      const target = link.getAttribute("data-view") || 
+                     link.getAttribute("data-target") || 
+                     link.getAttribute("href");
+      switchView(target, true);
     });
   });
 
   if (btnGoToCalendar) {
-    btnGoToCalendar.addEventListener("click", () => switchView("calendario"));
+    btnGoToCalendar.addEventListener("click", () => switchView("calendario", true));
   }
 
-  // RENDERIZADO DE PARTIDOS
+  window.addEventListener("hashchange", cambiarVistaSegunHash);
+
+  // 2. RENDERIZADO DE PARTIDOS
   function cargarJornada(jornadaKey) {
-    if (typeof datosJornadas === "undefined" || !datosJornadas[jornadaKey]) return;
+    if (typeof datosJornadas === "undefined" || !datosJornadas[jornadaKey] || !matchesContainer) return;
 
     const partidos = datosJornadas[jornadaKey];
 
@@ -109,7 +129,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchesContainer.innerHTML = html;
   }
 
-  // ACTUALIZA AUTOMÁTICAMENTE EL ESTADO DE LAS JORNADAS Y FASES FINALES
   function actualizarEstadoJornadas() {
     if (typeof datosJornadas === "undefined") return;
 
@@ -124,24 +143,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const jornadaCompleta = partidos.every(partido => {
         const marcador = String(partido.marcador || "").trim();
-
-        if (
-          marcador === "" ||
-          marcador === "-- - --" ||
-          marcador === "--" ||
-          marcador.toUpperCase() === "VS"
-        ) {
-          return false;
-        }
-
-        return true;
+        return !(marcador === "" || marcador === "-- - --" || marcador === "--" || marcador.toUpperCase() === "VS");
       });
 
       btn.classList.toggle("completed", jornadaCompleta);
     });
   }
 
-  // EVENTOS DE PESTAÑAS
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const jornadaKey = btn.getAttribute("data-jornada");
@@ -149,20 +157,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // 1. Intentar sincronizar datos con Google Sheets
-  await sincronizarMarcadores();
+  // Inicialización de Modales
+  inicializarModales();
 
-  // 2. Actualizar automáticamente qué jornadas están completas
-  actualizarEstadoJornadas();
-
-  // 3. Pintar la UI
+  // Carga inicial paralela
+  cambiarVistaSegunHash();
   cargarJornada("1");
-  calcularYRenderizarTabla();
-});
 
-// FUNCIÓN DE SINCRONIZACIÓN DEFINITIVA
+  // Disparar carga de noticias inmediatamente
+  cargarNoticias();
+
+  // Sincronizar partidos en segundo plano sin bloquear
+  sincronizarMarcadores().then(() => {
+    actualizarEstadoJornadas();
+    cargarJornada("1");
+    calcularYRenderizarTabla();
+  });
+}); // <-- AQUÍ SE CIERRA DOMCONTENTLOADED CORRECTAMENTE
+
+
+// ==========================================
+// SINCRONIZACIÓN CSV GOOGLE SHEETS
+// ==========================================
 async function sincronizarMarcadores() {
-  if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("PEGA_AQUI_TU_ENLACE")) return;
+  if (!SHEET_CSV_URL) return;
 
   try {
     const response = await fetch(SHEET_CSV_URL);
@@ -183,7 +201,6 @@ async function sincronizarMarcadores() {
       if (typeof datosJornadas !== "undefined" && datosJornadas[jornadaKey]) {
         const partido = datosJornadas[jornadaKey].find(p => {
           if (p.id && p.id.toLowerCase() === idPartido.toLowerCase()) return true;
-          
           const nombreLimpio = partes.slice(1).join("-").toLowerCase();
           return p.local && p.local.toLowerCase() === nombreLimpio;
         });
@@ -200,8 +217,10 @@ async function sincronizarMarcadores() {
   }
 }
 
-// CÁLCULO DE TABLA DE POSICIONES CON REGLAMENTO FIBA
-// CÁLCULO DE TABLA DE POSICIONES CON REGLAMENTO FIBA Y PENALIZACIÓN POR INCOMPARECENCIA
+
+// ==========================================
+// CÁLCULO DE TABLA FIBA
+// ==========================================
 function calcularYRenderizarTabla() {
   if (typeof datosJornadas === "undefined") return;
 
@@ -241,7 +260,6 @@ function calcularYRenderizarTabla() {
       equipos[partido.visitante].pf += puntosVisitante;
       equipos[partido.visitante].pc += puntosLocal;
 
-      // DETECCIÓN DE INCOMPARECENCIA (FORFEIT)
       const esForfeitVisitante = (puntosLocal === 20 && puntosVisitante === 0);
       const esForfeitLocal = (puntosLocal === 0 && puntosVisitante === 20);
 
@@ -266,10 +284,7 @@ function calcularYRenderizarTabla() {
 
   function compararDirectoFIBA(eqA, eqB, grupoEmpatados) {
     const nombresGrupo = new Set(grupoEmpatados.map(e => e.nombre));
-
-    const partidosDirectos = partidosJugados.filter(
-      p => nombresGrupo.has(p.local) && nombresGrupo.has(p.visitante)
-    );
+    const partidosDirectos = partidosJugados.filter(p => nombresGrupo.has(p.local) && nombresGrupo.has(p.visitante));
 
     if (partidosDirectos.length === 0) return 0;
 
@@ -353,14 +368,146 @@ function calcularYRenderizarTabla() {
   }).join("");
 }
 
-// MANEJO UNIFICADO DEL MODAL (CALENDARIO Y TABLA ESCALADA EXACTA)
-document.addEventListener("DOMContentLoaded", () => {
+function parsearFechaDDMMYYYY(fechaStr) {
+  if (!fechaStr) return new Date(0);
+  const partes = fechaStr.trim().split('/');
+  if (partes.length !== 3) return new Date(0);
+  
+  const dia = parseInt(partes[0], 10);
+  const mes = parseInt(partes[1], 10) - 1;
+  const anio = parseInt(partes[2], 10);
+  
+  return new Date(anio, mes, dia);
+}
+
+
+// ==========================================
+// MÓDULO DE NOTICIAS CON PARSER SEGURO
+// ==========================================
+async function cargarNoticias() {
+  const container = document.getElementById("newsContainer");
+  if (!container) return;
+
+  container.innerHTML = Array(3).fill(`
+    <article class="news-card" style="opacity: 0.5;">
+      <div style="background:#ddd; height:180px; width:100%;"></div>
+      <div class="news-body" style="padding:15px;">
+        <div style="background:#ddd; height:15px; width:30%; margin-bottom:10px;"></div>
+        <div style="background:#ddd; height:20px; width:80%; margin-bottom:10px;"></div>
+        <div style="background:#ddd; height:40px; width:100%;"></div>
+      </div>
+    </article>
+  `).join("");
+
+  try {
+    const res = await fetch(URL_CSV_NOTICIAS);
+    const text = await res.text();
+    const noticias = parsearCSVNoticias(text);
+
+    if (noticias.length === 0) {
+      container.innerHTML = `<p style="text-align:center; color:#777; width:100%;">No hay noticias disponibles.</p>`;
+      return;
+    }
+
+    noticias.sort((a, b) => {
+      const fechaA = parsearFechaDDMMYYYY(a.fecha);
+      const fechaB = parsearFechaDDMMYYYY(b.fecha);
+      return fechaB - fechaA;
+    });
+
+    container.innerHTML = noticias.map((post, index) => `
+      <article class="news-card">
+        <img 
+          src="${post.imagen}" 
+          class="news-image" 
+          alt="${post.titulo}" 
+          loading="${index === 0 ? 'eager' : 'lazy'}" 
+          decoding="async"
+          onerror="this.onerror=null; this.src='img/aluche_logo.png'"
+        >
+        <div class="news-body">
+          <div class="news-meta">
+            <span class="news-tag">${post.etiqueta}</span>
+            <span><i class="fa-regular fa-calendar"></i> ${post.fecha}</span>
+          </div>
+          <h3 class="news-title">${post.titulo}</h3>
+          <p class="news-excerpt">${post.resumen}</p>
+          <a href="noticia.html?id=${post.id}" class="btn-read-more">LEER MÁS</a>
+        </div>
+      </article>
+    `).join("");
+
+  } catch (err) {
+    console.error("Error al cargar las noticias:", err);
+    container.innerHTML = `<p style="text-align:center; color:#8b0000; width:100%;">Error al cargar las noticias.</p>`;
+  }
+}
+
+function parsearCSVNoticias(text) {
+  const result = [];
+  let row = [];
+  let entry = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    const nextC = text[i + 1];
+
+    if (c === '"') {
+      if (inQuotes && nextC === '"') {
+        entry += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (c === ',' && !inQuotes) {
+      row.push(entry.trim());
+      entry = '';
+    } else if ((c === '\r' || c === '\n') && !inQuotes) {
+      if (c === '\r' && nextC === '\n') i++;
+      row.push(entry.trim());
+      if (row.length > 1 || row[0] !== '') {
+        result.push(row);
+      }
+      row = [];
+      entry = '';
+    } else {
+      entry += c;
+    }
+  }
+  if (entry || row.length > 0) {
+    row.push(entry.trim());
+    result.push(row);
+  }
+
+  const noticias = [];
+  for (let i = 1; i < result.length; i++) {
+    const cols = result[i];
+    if (cols.length >= 4) {
+      noticias.push({
+        id: cols[0],
+        fecha: cols[1],
+        etiqueta: cols[2],
+        titulo: cols[3],
+        imagen: cols[4] || 'img/aluche_logo.png',
+        resumen: cols[5] || '',
+        contenido: cols[6] || cols[5] || ''
+      });
+    }
+  }
+  return noticias;
+}
+
+
+// ==========================================
+// MANEJO DE MODALES
+// ==========================================
+function inicializarModales() {
   const modal = document.getElementById("imageModal");
   const imgModalTarget = document.getElementById("imgModalTarget");
   const tableModalTarget = document.getElementById("tableModalTarget");
   const closeModalBtn = document.querySelector(".close-modal");
 
-  // 1. ABRIR CALENDARIO (IMAGEN)
   document.addEventListener("click", (e) => {
     if (e.target && e.target.id === "imgCalendario") {
       if (tableModalTarget) tableModalTarget.style.display = "none";
@@ -372,7 +519,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 2. ABRIR TABLA CON ESCALADO AJUSTADO
   document.addEventListener("click", (e) => {
     const tableContainer = e.target.closest(".table-container");
 
@@ -419,7 +565,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. EVENTOS DE CIERRE GLOBAL
   if (closeModalBtn) {
     closeModalBtn.addEventListener("click", () => {
       if (modal) modal.style.display = "none";
@@ -433,4 +578,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
+}

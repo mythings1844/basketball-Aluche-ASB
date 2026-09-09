@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noticia - ASB Aluche StreetBall</title>
+  <link rel="icon" type="image/png" href="img/aluche_favicon.png">
+  <link rel="apple-touch-icon" href="img/aluche_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="static/css/styles.css">
+  <style>
+    .noticia-wrapper {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 25px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #111;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: #8b0000; }
+    .noticia-hero-img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin: 15px 0 25px 0;
+    }
+    .noticia-body-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #2d3748;
+    }
+    /* ESTILOS PARA COMPARTIR */
+    .share-container {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .share-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #4a5568;
+    }
+    .btn-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn-share:hover { opacity: 0.9; }
+    .btn-share:active { transform: scale(0.98); }
+    .btn-wa { background-color: #25D366; color: #fff; }
+    .btn-copy { background-color: #1a202c; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="logo-container">
+        <img src="img/aluche_logo.png" alt="Torneo Callejero de Baloncesto" class="header-logo">
+        <div class="brand-title">
+          <h1>Aluche StreetBall</h1>
+          <p>Torneo de Baloncesto</p>
+          <p class="subtitle-small">Volumen III (2026)</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="main-nav">
+      <ul>
+        <li>
+          <a href="index.html#noticias" class="nav-link active">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Noticias</span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#resultados" class="nav-link">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Resultados</span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#calendario" class="nav-link">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Calendario</span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#quienes-somos" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Conócenos</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- CUERPO DE LA NOTICIA -->
+    <main class="noticia-wrapper">
+      <a href="index.html#noticias" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> Volver a Noticias
+      </a>
+
+      <div id="loading" style="text-align: center; padding: 40px; font-weight: bold; color: #666;">
+        Cargando publicación...
+      </div>
+
+      <article id="noticiaFull" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="noticiaTag" class="news-tag"></span>
+          <span id="noticiaFecha" style="color: #64748b; font-size: 0.85rem;"></span>
+        </div>
+
+        <h1 id="noticiaTitulo" style="font-family: 'Oswald', sans-serif; font-size: clamp(1.35rem, 4vw, 2.2rem); color: #111; margin: 12px 0; line-height: 1.2;"></h1>
+
+        <img id="noticiaImg" class="noticia-hero-img" src="" alt="Noticia">
+
+        <div id="noticiaTexto" class="noticia-body-text" style="text-align: justify;"></div>
+
+        <!-- SECCIÓN COMPARTIR -->
+        <div class="share-container">
+          <span class="share-title">Compartir:</span>
+          
+          <a id="btnShareWA" href="#" target="_blank" class="btn-share btn-wa">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+
+          <button id="btnCopyLink" onclick="copiarEnlace()" class="btn-share btn-copy">
+            <i class="fa-solid fa-link"></i> Copiar Enlace
+          </button>
+        </div>
+      </article>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">
+        <img src="img/aluche_favicon.png" alt="Aluche StreetBall" class="footer-logo">
+        <span><strong>© Aluche StreetBall</strong></span>
+        <span class="footer-divider">|</span>
+        <span class="credits"><strong>Desarrollando el deporte 🏀</strong></span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-divider">|</span>
+        <span class="credits">Design by <strong>Herrera</strong></span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const URL_CSV_NOTICIAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSohtSgegLqJZ34ssDO9UyhHjWBm0k8dJcC7EFiV6s9oi-wp2S2JVo-JTz-6pidywP71VDxy7rs7hMO/pub?gid=386113331&single=true&output=csv";
+
+    // Función para procesar Markdown (**negrita** y - viñetas)
+    function formatearTextoMarkdown(texto) {
+      if (!texto) return '';
+      return texto
+        .replace(/\r\n/g, '\n')
+        .replaceAll('\\n', '\n')
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+        .replace(/^[\*\-]\s+(.*)$/gim, '• $1')
+        .replace(/\n/g, '<br>');
+    }
+
+    async function cargarNoticiaIndividual() {
+      const params = new URLSearchParams(window.location.search);
+      const idBuscado = params.get("id");
+
+      if (!idBuscado) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const res = await fetch(URL_CSV_NOTICIAS);
+        const csvText = await res.text();
+        const noticias = parsearCSVNoticias(csvText);
+
+        const noticia = noticias.find(n => String(n.id).trim() === String(idBuscado).trim());
+
+        if (!noticia) {
+          document.getElementById("loading").innerHTML = `<p style="color:#8b0000; text-align:center;">La noticia solicitada no existe.</p>`;
+          return;
+        }
+
+        document.getElementById("noticiaTag").innerText = noticia.etiqueta || "NOTICIA";
+        document.getElementById("noticiaFecha").innerText = noticia.fecha || "";
+        document.getElementById("noticiaTitulo").innerText = noticia.titulo || "";
+        
+        const imgElem = document.getElementById("noticiaImg");
+        imgElem.src = noticia.imagen || 'img/aluche_logo.png';
+        imgElem.onerror = function() { this.src = 'img/aluche_logo.png'; };
+
+        // Formatear e inyectar el contenido con innerHTML
+        const contenidoBruto = noticia.contenido || noticia.resumen || "";
+        document.getElementById("noticiaTexto").innerHTML = formatearTextoMarkdown(contenidoBruto);
+
+        // ENLACES DINÁMICOS DE COMPARTIR
+        const urlActual = encodeURIComponent(window.location.href);
+        const tituloNoticia = encodeURIComponent(noticia.titulo);
+
+        const btnWA = document.getElementById("btnShareWA");
+        if (btnWA) {
+          btnWA.href = `https://api.whatsapp.com/send?text=${tituloNoticia}%20${urlActual}`;
+        }
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("noticiaFull").style.display = "block";
+        document.title = `${noticia.titulo} - Aluche StreetBall`;
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("loading").innerText = "Error al obtener la noticia.";
+      }
+    }
+
+    function copiarEnlace() {
+      const url = window.location.href;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        // Método moderno (HTTPS / localhost)
+        navigator.clipboard.writeText(url)
+          .then(mostrarConfirmacionCopiar)
+          .catch(() => usarMetodoClasicoCopiar(url));
+      } else {
+        // Método de respaldo (Red local HTTP / Navegadores antiguos)
+        usarMetodoClasicoCopiar(url);
+      }
+    }
+
+    function usarMetodoClasicoCopiar(texto) {
+      const textarea = document.createElement("textarea");
+      textarea.value = texto;
+      textarea.style.position = "fixed"; 
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand("copy");
+        mostrarConfirmacionCopiar();
+      } catch (err) {
+        console.error("Error al copiar enlace:", err);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function mostrarConfirmacionCopiar() {
+      const btn = document.getElementById("btnCopyLink");
+      if (btn) {
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
+        setTimeout(() => { btn.innerHTML = textoOriginal; }, 2000);
+      }
+    }
+
+    function parsearCSVNoticias(text) {
+      const result = [];
+      let row = [];
+      let entry = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const nextC = text[i + 1];
+
+        if (c === '"') {
+          if (inQuotes && nextC === '"') {
+            entry += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (c === ',' && !inQuotes) {
+          row.push(entry.trim());
+          entry = '';
+        } else if ((c === '\r' || c === '\n') && !inQuotes) {
+          if (c === '\r' && nextC === '\n') i++;
+          row.push(entry.trim());
+          if (row.length > 1 || row[0] !== '') {
+            result.push(row);
+          }
+          row = [];
+          entry = '';
+        } else {
+          entry += c;
+        }
+      }
+      if (entry || row.length > 0) {
+        row.push(entry.trim());
+        result.push(row);
+      }
+
+      const noticias = [];
+      for (let i = 1; i < result.length; i++) {
+        const cols = result[i];
+        if (cols.length >= 4) {
+          noticias.push({
+            id: cols[0],
+            fecha: cols[1],
+            etiqueta: cols[2],
+            titulo: cols[3],
+            imagen: cols[4] || 'img/aluche_logo.png',
+            resumen: cols[5] || '',
+            contenido: cols[6] || cols[5] || ''
+          });
+        }
+      }
+      return noticias;
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarNoticiaIndividual);
+  </script>
+
+</body>
+</html>

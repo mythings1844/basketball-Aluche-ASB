@@ -11,11 +11,15 @@
   <!-- Favicon para acceso directo en dispositivos Apple (iOS) -->
   <link rel="apple-touch-icon" href="img/aluche_favicon.png">
 
-  <!-- Fuentes -->
+  <!-- Conexión anticipada a los servidores de datos y fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://docs.google.com">
+
+  <!-- Fuentes e iconos asíncronos -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
   
   <!-- CSS -->
   <link rel="stylesheet" href="static/css/styles.css">
@@ -39,7 +43,13 @@
     <nav class="main-nav">
       <ul>
         <li>
-          <a href="#resultados" class="nav-link active">
+          <a href="#noticias" class="nav-link active">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Noticias</span>
+         </a>
+        </li>
+        <li>
+          <a href="#resultados" class="nav-link">
             <i class="fa-solid fa-trophy"></i>
             <span>Resultados</span>
           </a>
@@ -61,6 +71,15 @@
 
     <!-- MAIN CONTENT -->
     <main>
+
+      <!-- VISTA: NOTICIAS -->
+      <section id="view-noticias" class="page-view">
+          <h2 class="section-title">Noticias</h2>
+          <div class="news-grid" id="newsContainer">
+      <!-- Las tarjetas se cargarán dinámicamente aquí -->
+          </div>
+      </section>
+      
       <!-- VISTA: CALENDARIO -->
       <section id="view-calendario" class="page-view hidden">
         <h2 class="section-title">Calendario</h2>
@@ -70,7 +89,7 @@
       </section>
 
       <!-- VISTA: RESULTADOS -->
-      <section id="view-resultados" class="page-view">
+      <section id="view-resultados" class="page-view hidden">
         <h2 class="section-title">Resultados</h2>
 
         <!-- JORNADAS & PARTIDOS -->
@@ -179,7 +198,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="static/js/data.js"></script>
-  <script src="static/js/app.js"></script>
+  <script src="static/js/data.js" defer></script>
+  <script src="static/js/app.js" defer></script>
 </body>
 </html>

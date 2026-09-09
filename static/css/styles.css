@@ -1167,3 +1167,259 @@ nav.main-nav .nav-link {
   z-index: 10000;
 }
 
+/* FEED DE NOTICIAS */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.news-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
+}
+
+.news-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background-color: #111;
+}
+
+.news-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.news-tag {
+  background-color: #8b0000;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.news-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.news-excerpt {
+  font-size: 0.875rem;
+  color: #475569;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.btn-read-more {
+  align-self: flex-start;
+  background: #111;
+  color: #fff !important;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.btn-read-more:hover {
+  background: #8b0000;
+}
+
+/* ==========================================
+   BARRA DE NAVEGACIÓN (ESTILO PÍLDORA UNIFICADA)
+   ========================================== */
+
+.main-nav {
+  background-color: #0d1624; /* Azul oscuro noche */
+  border-radius: 12px;        /* Bordes redondeados del contenedor principal */
+  padding: 4px;              /* Margen interno para encajar el botón activo */
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border: none !important;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  align-items: center;
+}
+
+.main-nav li {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SEPARADORES VERTICALES BLANCOS/GRISES */
+.main-nav li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.2); /* Línea vertical fina y sutil */
+  z-index: 1;
+}
+
+/* OCULTAR SEPARADOR JUNTO AL BOTÓN ACTIVO PARA MEJOR ACABADO */
+.main-nav li:has(.active)::after,
+.main-nav li:has(+ li .active)::after {
+  opacity: 0;
+}
+
+/* ENLACES / BOTONES */
+.main-nav .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* BOTÓN ACTIVO (ROJO) */
+.main-nav .nav-link.active {
+  background-color: #ba0000; /* Rojo vibrante */
+  color: #ffffff;
+  border-radius: 8px;        /* Esquinas redondeadas internas */
+  z-index: 2;
+}
+
+.main-nav .nav-link:not(.active):hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================
+   ADAPTACIÓN PARA MÓVILES (PANTALLAS < 500px)
+   ========================================== */
+
+@media (max-width: 500px) {
+  .main-nav {
+    border-radius: 10px;
+    padding: 3px;
+  }
+
+  .main-nav .nav-link {
+    font-size: 0.70rem; /* Ajuste preciso del texto para que no salte de línea */
+    gap: 4px;           /* Separación icono-texto reducida */
+    padding: 8px 2px;
+  }
+
+  .main-nav .nav-link i {
+    font-size: 0.75rem; /* Iconos un poco más pequeños */
+  }
+}
+
+/* ENLACES / BOTONES (TEXTO E ICONOS EN BLANCO) */
+.main-nav .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  color: #ffffff !important; /* Texto en blanco puro */
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ASEGURAR QUE LOS ICONOS TAMBIÉN SEAN BLANCOS */
+.main-nav .nav-link i {
+  color: #ffffff !important;
+}
+
+/* BOTÓN ACTIVO (ROJO) */
+.main-nav .nav-link.active {
+  background-color: #ba0000;
+  color: #ffffff !important;
+  border-radius: 8px;
+  z-index: 2;
+}
+
+/* Titulo noticias */
+.noticia-titulo-principal {
+  font-family: 'Oswald', sans-serif;
+  color: #111;
+  margin: 12px 0;
+  line-height: 1.2;
+  font-size: 1.75rem; /* Tamaño optimizado para pantallas normales */
+}
+
+/* Reducción responsiva para móviles */
+@media (max-width: 600px) {
+  .noticia-titulo-principal {
+    font-size: 1.35rem; /* Tamaño proporcional y equilibrado en teléfonos */
+    margin: 8px 0 14px 0;
+  }
+  
+  .noticia-wrapper {
+    padding: 18px 15px; /* Ajuste opcional del margen interior en móviles */
+  }
+}
+
+.noticia-titulo-principal {
+  text-align: left;              /* Alineación natural y limpia */
+  text-wrap: balance;             /* Hace que las líneas del título se equilibren solas */
+  line-height: 1.15;              /* Interlineado ajustado para títulos grandes */
+}
