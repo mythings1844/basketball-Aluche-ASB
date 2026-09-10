@@ -83,46 +83,42 @@
 
   <div class="container">
     <!-- HEADER -->
-    <header>
-      <div class="logo-container">
-        <img src="img/aluche_logo.png" alt="Torneo Callejero de Baloncesto" class="header-logo">
-        <div class="brand-title">
-          <h1>Aluche StreetBall</h1>
-          <p>Torneo de Baloncesto</p>
-          <p class="subtitle-small">Volumen III (2026)</p>
-        </div>
+    <!-- HEADER UNIFICADO (UN SOLO BLOQUE) -->
+    <header class="main-header">
+      <div class="banner-container">
+        <img src="img/banner.png" alt="Aluche Streetball" class="banner-img">
       </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li>
+            <a href="index.html#noticias" class="nav-link active" data-view="noticias">
+              <i class="fa-solid fa-newspaper"></i>
+              <span>Noticias</span>
+            </a>
+          </li>
+          <li>
+            <a href="index.html#resultados" class="nav-link" data-view="resultados">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Resultados</span>
+            </a>
+          </li>
+          <li>
+            <a href="index.html#calendario" class="nav-link" data-view="calendario">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Calendario</span>
+            </a>
+          </li>
+          <li>
+            <a href="index.html#conocenos" class="nav-link" data-view="conocenos">
+              <i class="fa-solid fa-users"></i>
+              <span>Conócenos</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </header>
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <nav class="main-nav">
-      <ul>
-        <li>
-          <a href="index.html#noticias" class="nav-link active">
-            <i class="fa-solid fa-newspaper"></i>
-            <span>Noticias</span>
-          </a>
-        </li>
-        <li>
-          <a href="index.html#resultados" class="nav-link">
-            <i class="fa-solid fa-trophy"></i>
-            <span>Resultados</span>
-          </a>
-        </li>
-        <li>
-          <a href="index.html#calendario" class="nav-link">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span>Calendario</span>
-          </a>
-        </li>
-        <li>
-          <a href="index.html#quienes-somos" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            <span>Conócenos</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
 
     <!-- CUERPO DE LA NOTICIA -->
     <main class="noticia-wrapper">
