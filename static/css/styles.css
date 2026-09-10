@@ -1423,3 +1423,497 @@ nav.main-nav .nav-link {
   text-wrap: balance;             /* Hace que las líneas del título se equilibren solas */
   line-height: 1.15;              /* Interlineado ajustado para títulos grandes */
 }
+
+/*Banner new*/
+
+/* ==========================================
+   HEADER Y BANNER UNIFICADO
+   ========================================== */
+.main-header {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #0b111e;
+  border-radius: 10px;
+  overflow: hidden; /* Mantiene la imagen y el menú unidos en una sola pieza */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+/* BANNER */
+.banner-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0; /* Quita hueco invisible en la base de la imagen */
+  background-color: #0d1527;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto; /* Muestra la imagen COMPLETA sin hacerle zoom ni cortarla */
+  display: block;
+  border: none;
+}
+
+/* MENÚ DE NAVEGACIÓN PEGADO ABAJO */
+.main-nav {
+  width: 100%;
+  background-color: #0b111e;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: flex-end; /* Botones a la derecha */
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0 15px;
+}
+
+.main-nav li {
+  margin: 0;
+}
+
+.main-nav .nav-link {
+  color: #a0aab8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.main-nav .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.main-nav .nav-link.active {
+  background-color: #a81216;
+  color: #ffffff;
+}
+
+/* ==========================================
+   ADAPTACIÓN MÓVIL (LIMPIA Y SIN MARCOS)
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* 1. Quitamos los márgenes externos para pegar todo a los bordes de la pantalla */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  /* 2. Eliminamos bordes, sombras y paddings del header */
+  .main-header {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* 3. Quitamos el espacio alrededor del banner */
+  .banner-container {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    line-height: 0; /* Elimina cualquier espacio fantasma debajo de la imagen */
+  }
+
+  /* 4. La imagen ocupa el 100% real del ancho sin espacio azul alrededor */
+  .banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+  }
+
+  /* 5. El menú justo debajo del banner, integrado y ordenado */
+  .main-nav {
+    border-radius: 0;
+    padding: 6px 0;
+  }
+
+  .main-nav ul {
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-nav .nav-link {
+    padding: 8px 2px;
+    font-size: 0.7rem;
+    gap: 4px;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 6px;
+  }
+
+  .main-nav .nav-link i {
+    font-size: 0.9rem;
+  }
+}
+
+/* Elimina márgenes generales del navegador */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Header independiente que ocupa todo el ancho superior */
+.main-header {
+  width: 100%;
+  margin: 0 0 20px 0; /* 20px de separación con las secciones */
+  padding: 0;
+  border-radius: 0;   /* Sin bordes redondeados */
+  box-shadow: none;
+}
+
+/* Imagen del banner limpia de borde a borde */
+.banner-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0; /* Quita espacios blancos debajo de la imagen */
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Menú de navegación integrado en el bloque superior */
+.main-nav {
+  width: 100%;
+  border-radius: 0;
+}
+
+/* Adaptación para pantallas de móvil */
+@media (max-width: 768px) {
+  .main-nav ul {
+    justify-content: space-around;
+    padding: 4px 0;
+  }
+
+  .main-nav .nav-link {
+    flex-direction: column;
+    font-size: 0.7rem;
+    padding: 6px 2px;
+  }
+}
+
+/* MENÚ DE NAVEGACIÓN (AJUSTE EXACTO DE BOTONES) */
+.main-nav {
+  width: 100%;
+  background-color: #0b111e;
+  padding: 0; /* Sin relleno para que el botón toque los bordes */
+  margin: 0;
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Estira todos los botones al alto total del nav */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  margin: 0;
+  flex: 1; /* Todos los botones miden exactamente lo mismo */
+  display: flex;
+}
+
+.main-nav .nav-link {
+  width: 100%;
+  color: #a0aab8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 10px 0; /* Controla la altura del bloque */
+  display: flex;
+  flex-direction: column; /* Icono arriba, texto abajo */
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border-radius: 0; /* Quita esquinas redondeadas para pegar al borde absoluto */
+  box-sizing: border-box;
+}
+
+.main-nav .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* BOTÓN ACTIVO EXACTO HASTA LOS BORDES */
+.main-nav .nav-link.active {
+  background-color: #a81216;
+  color: #ffffff;
+  border-radius: 0; /* Toca el borde superior e inferior sin huecos azules */
+}
+
+/* 1. RESET GLOBAL OBLIGATORIO */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden;
+}
+
+/* 2. ELIMINAR CUALQUIER RELLENO DEL CONTENEDOR PRINCIPAL */
+.container {
+  width: 100% !important;
+  max-width: 1200px; /* Mantiene el ancho cerrado en PC */
+  margin: 0 auto !important;
+  padding: 0 !important; /* Quita el espacio rosa lateral */
+}
+
+/* 3. MÓVIL (PANTALLA PEQUEÑA): BORDE A BORDE REAL */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100% !important;
+  }
+
+  .main-header {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Le da margen lateral ÚNICAMENTE al contenido (Noticias, Tablas) para no pegarlo al borde */
+  main {
+    padding: 0 15px !important;
+  }
+}
+
+/* FORZAR MENÚ ULTRA ESTRECHO */
+.main-header {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.main-nav {
+  width: 100% !important;
+  height: 38px !important;    /* ALTURA TOTAL MÁXIMA FORZADA */
+  min-height: 0 !important;
+  background-color: #0b111e;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.main-nav ul {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: stretch !important;
+  height: 100% !important;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 15px !important;
+}
+
+.main-nav li {
+  margin: 0 !important;
+  display: flex !important;
+  height: 100% !important;
+}
+
+.main-nav .nav-link {
+  height: 100% !important;     /* El botón ocupa exactamente los 38px de alto */
+  color: #a0aab8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.68rem !important; /* Texto bien encajado */
+  padding: 0 12px !important;    /* Cero padding vertical, la altura la manda el height */
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px !important;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  box-sizing: border-box;
+}
+
+.main-nav .nav-link i {
+  font-size: 0.75rem !important; /* Iconos reducidos */
+}
+
+.main-nav .nav-link.active {
+  background-color: #a81216 !important;
+  color: #ffffff;
+}
+
+/* MARGEN SUPERIOR PARA EL CONTENIDO (SEPARACIÓN DEL HEADER) */
+main, 
+.page-view {
+  margin-top: 25px !important; /* Ajusta este valor si quieres más o menos espacio */
+}
+
+/* Para dispositivos móviles */
+@media (max-width: 768px) {
+  main, 
+  .page-view {
+    margin-top: 20px !important;
+    padding-left: 15px;  /* Mantiene espacio con los bordes laterales */
+    padding-right: 15px;
+  }
+}
+
+/* LÍNEA SUPERIOR EN NEGRO */
+.main-header {
+  border-top: 1px solid #000000 !important; /* Línea fina en negro puro */
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* En caso de que la línea se genere con un pseudo-elemento ::before */
+.main-header::before,
+.banner-container::before {
+  height: 2px !important;
+  background-color: #000000 !important;
+  top: 0 !important;
+}
+
+/* ==========================================
+   ESCRITORIO / PANTALLA GRANDE (ESTILO PRINCIPAL)
+   ========================================= */
+
+.main-header {
+  padding: 0 !important;
+  margin: 0 !important;
+  border-top: 2px solid #000000 !important; /* Línea negra superior fina */
+}
+
+.main-nav {
+  width: 100% !important;
+  height: 50px !important; /* Altura más amplia para dar cabida a los iconos más grandes */
+  min-height: 0 !important;
+  background-color: #0b111e;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.main-nav ul {
+  display: flex !important;
+  justify-content: flex-end; /* Alineados a la derecha en PC */
+  align-items: stretch !important;
+  height: 100% !important;
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 20px !important;
+}
+
+.main-nav li {
+  margin: 0 !important;
+  display: flex !important;
+  height: 100% !important;
+}
+
+.main-nav .nav-link {
+  height: 100% !important;
+  color: #a0aab8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.82rem !important; /* Texto ligeramente más grande */
+  padding: 0 18px !important;    /* Más espacio lateral para respirar */
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px !important;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Iconos en PC: Mucho más legibles */
+.main-nav .nav-link i {
+  font-size: 1.15rem !important; 
+}
+
+.main-nav .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.main-nav .nav-link.active {
+  background-color: #a81216 !important;
+  color: #ffffff;
+}
+
+/* ==========================================
+   ADAPTACIÓN MÓVIL (MANTIENE EL TAMAÑO PEQUEÑO)
+   ========================================= */
+
+@media (max-width: 768px) {
+  .main-nav {
+    height: 38px !important; /* Mantiene la barra estrecha en móvil */
+  }
+
+  .main-nav ul {
+    justify-content: space-around !important; /* Distribución uniforme */
+    padding: 0 !important;
+  }
+
+  .main-nav .nav-link {
+    font-size: 0.68rem !important;
+    padding: 0 6px !important;
+    gap: 1px !important;
+  }
+
+  .main-nav .nav-link i {
+    font-size: 0.75rem !important; /* Mantiene el tamaño compacto en móvil */
+  }
+}
+
+/* AJUSTAR ALTURA DEL BANNER EN ESCRITORIO (ENFOCADO EN EL LOGO) */
+.banner-container {
+  height: 180px !important;
+  overflow: hidden;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.banner-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  /* CAMBIO CLAVE: Ancla la imagen al borde izquierdo para priorizar el logo */
+  object-position: left center !important; 
+}
+
+/* AJUSTE EXCLUSIVO PARA MÓVIL (MUESTRA MÁS TEXTO A LA DERECHA) */
+@media (max-width: 768px) {
+  .banner-container {
+    height: 90px !important; /* Mantiene la altura exacta que te gusta */
+    overflow: hidden !important;
+  }
+
+  .banner-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    /* Mueve el encuadre ligeramente a la derecha para revelar la 'LL' de STREETBALL */
+    object-position: 7.5% center !important; 
+  }
+}
+
